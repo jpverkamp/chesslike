@@ -30,7 +30,7 @@ public class Main extends JFrame implements KeyListener {
 		
 		// Set up the terminal.
 		Screen.Terminal = new AsciiPanel();
-		Screen.Current = new MainMenuScreen();
+		Screen.push(new MainMenuScreen());
 		
 		// Set up the UI
 		setLayout(new BorderLayout());
@@ -54,7 +54,7 @@ public class Main extends JFrame implements KeyListener {
 		Screen.Terminal.clear();
 		
 		if (Screen.Current != null)
-			Screen.Current.update();
+			Screen.Current.doUpdate();
     }
 
 	@Override public void keyTyped(KeyEvent e) {}
@@ -70,7 +70,7 @@ public class Main extends JFrame implements KeyListener {
 		if (Screen.Current == null)
 			System.exit(0);
 		else
-			Screen.Current.update();
+			Screen.Current.doUpdate();
 		
 		repaint();
 	}

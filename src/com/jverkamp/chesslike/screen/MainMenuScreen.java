@@ -12,10 +12,9 @@ public class MainMenuScreen extends Screen {
 	 * @param terminal The terminal to draw to.
 	 */
 	@Override
-	public void input(KeyEvent event) {
+	protected void input(KeyEvent event) {
 		switch(event.getKeyCode()) {
 		case KeyEvent.VK_ENTER:
-			System.out.println("gogo game over?");
 			Screen.push(new GameOverScreen(true));
 			break;
 			
@@ -30,7 +29,7 @@ public class MainMenuScreen extends Screen {
 	 * @param terminal The event to respond to.
 	 */
 	@Override
-	public void update() {
+	protected void update() {
 		Terminal.writeCenter("ChessLike", 8);
 		Terminal.writeCenter("Roguelike + Chess!", 9);
 		Terminal.writeCenter("Press [Enter] to play", 11);
