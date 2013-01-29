@@ -14,6 +14,9 @@ import trystans.asciiPanel.AsciiPanel;
 public class Main extends JFrame implements KeyListener {
 	private static final long serialVersionUID = -2378686147116641155L;
 
+	AsciiPanel Terminal;
+	Screen BaseScreen;
+	
 	/**
 	 * Run from the command line.
 	 * @param args Command line parameters.
@@ -29,14 +32,15 @@ public class Main extends JFrame implements KeyListener {
 		super("ChessLike");
 		
 		// Set up the terminal.
-		Screen.Terminal = new AsciiPanel();
-		Screen.push(new MainMenuScreen());
+		Terminal = new AsciiPanel();
+		BaseScreen = new MainMenuScreen();
 		
 		// Set up the UI
 		setLayout(new BorderLayout());
-		add(Screen.Terminal);
+		add(Terminal);
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocation(200, 200);
 		
 		// Add the key listener
 		addKeyListener(this);
@@ -51,10 +55,12 @@ public class Main extends JFrame implements KeyListener {
 	 */
 	public void repaint() {
 		super.repaint();
-		Screen.Terminal.clear();
+		Terminal.clear();
 		
-		if (Screen.Current != null)
-			Screen.Current.doUpdate();
+		if (BaseScreen == null)
+			System.exit(0);
+		else
+			BaseScreen.doDraw(Terminal);
     }
 
 	@Override public void keyTyped(KeyEvent e) {}
@@ -62,15 +68,8 @@ public class Main extends JFrame implements KeyListener {
 	@Override public void keyPressed(KeyEvent e) {}
 	
 	@Override public void keyReleased(KeyEvent e) {
-		if (Screen.Current != null)
-			Screen.Current.doInput(e);
-		
-		Screen.Terminal.clear();
-		
-		if (Screen.Current == null)
-			System.exit(0);
-		else
-			Screen.Current.doUpdate();
+		if (BaseScreen != null)
+			BaseScreen = BaseScreen.doInput(e);
 		
 		repaint();
 	}

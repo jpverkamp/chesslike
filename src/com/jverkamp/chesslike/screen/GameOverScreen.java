@@ -2,6 +2,8 @@ package com.jverkamp.chesslike.screen;
 
 import java.awt.event.KeyEvent;
 
+import trystans.asciiPanel.AsciiPanel;
+
 public class GameOverScreen extends Screen {
 	boolean Won;
 	
@@ -14,24 +16,21 @@ public class GameOverScreen extends Screen {
 	}
 
 	/**
-	 * Update this screen.
+	 * Draw this screen.
 	 * @param terminal The terminal to draw to.
 	 */
 	@Override
-	protected void input(KeyEvent event) {
-		switch(event.getKeyChar()) {
-		default:
-			Screen.pop();
-		}
+	protected Screen input(KeyEvent event) {
+		return new MainMenuScreen();
 	}
 	
 	/**
-	 * Respond to user input
+	 * Draw to the panel
 	 * @param terminal The event to respond to.
 	 */
 	@Override
-	protected void update() {
-		Terminal.writeCenter("You win!", 9);
-		Terminal.writeCenter("Press any key to return to the menu", 11);
+	protected void draw(AsciiPanel terminal) {
+		terminal.writeCenter("You win!", 9);
+		terminal.writeCenter("Press any key to return to the menu", 11);
 	}
 }

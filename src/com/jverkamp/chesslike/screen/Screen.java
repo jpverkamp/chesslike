@@ -11,14 +11,19 @@ public abstract class Screen {
 	Screen Parent;
 	boolean Recur;
 	
-	public static AsciiPanel Terminal;
-	public static Screen Current;
-	
 	/**
 	 * Create a new screen.
 	 */
 	public Screen() {
-		this(false);
+		this(null, false);
+	}
+	
+	/**
+	 * Create a new screen.
+	 * @param parent The parent screen to remember.
+	 */
+	public Screen(Screen parent) {
+		this(parent, false);
 	}
 	
 	/**
@@ -26,6 +31,16 @@ public abstract class Screen {
 	 * @param recur Recur to parent screen. 
 	 */
 	public Screen(boolean recur) {
+		this(null, recur);
+	}
+	
+	/**
+	 * Create a new nested screen.
+	 * @param parent The parent screen to remember.
+	 * @param recur Recur to parent screen. 
+	 */
+	public Screen(Screen parent, boolean recur) {
+		Parent = parent;
 		Recur = recur;
 	}
 	
@@ -33,54 +48,36 @@ public abstract class Screen {
 	 * Respond to user input
 	 * @param The event to respond to.
 	 */
-	public final void doInput(KeyEvent event) {
+	public final Screen doInput(KeyEvent event) {
 		System.out.println("input " + "(" + event.getKeyCode() + ")" + ": " + getClass().getSimpleName());
 		
 		if (Recur && Parent != null)
-			Parent.doInput(event);
+			Parent = Parent.doInput(event);
 		
-		input(event);
+		return input(event);
 	}
 	
 	/**
-	 * Update this screen.
+	 * Draw this screen.
 	 */
-	public final void doUpdate() {
-		System.out.println("update: " + getClass().getSimpleName());
+	public final void doDraw(AsciiPanel terminal) {
+		System.out.println("Draw: " + getClass().getSimpleName());
 		
 		if (Recur && Parent != null)
-			Parent.doUpdate();
+			Parent.doDraw(terminal);
 		
-		update();
+		draw(terminal);
 	}
-	
-	/**
-	 * Add a new screen to the current stack.
-	 * @param newScreen The new screen to add.
-	 */
-	public final static void push(Screen newScreen) {
-		newScreen.Parent = Current;
-		Current = newScreen;
-		Terminal.clear();
-	}
-	
-	/**
-	 * Remove the current screen.
-	 */
-	public final static void pop() {
-		Current = Current.Parent;
-		Terminal.clear();
-	}
-	
 	
 	/**
 	 * Respond to user input
 	 * @param The event to respond to.
 	 */
-	protected abstract void input(KeyEvent event);
+	protected abstract Screen input(KeyEvent event);
 	
 	/**
-	 * Update this screen.
+	 * Draw this screen.
+	 * @param terminal The panel to draw to.
 	 */
-	protected abstract void update();
+	protected abstract void draw(AsciiPanel terminal);
 }
