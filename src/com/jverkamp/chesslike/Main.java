@@ -13,7 +13,7 @@ import trystans.asciiPanel.AsciiPanel;
 
 public class Main extends JFrame implements KeyListener {
 	private static final long serialVersionUID = -2378686147116641155L;
-
+	
 	AsciiPanel Terminal;
 	Screen BaseScreen;
 	
