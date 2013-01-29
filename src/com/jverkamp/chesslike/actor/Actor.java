@@ -25,6 +25,19 @@ public abstract class Actor {
 	}
 	
 	/**
+	 * Move the actor to the given location if it's walkable; otherwise, stay put.
+	 * 
+	 * @param x Location x
+	 * @param y Location y
+	 */
+	public void moveTo(int x, int y) {
+		if (World.getTile(x, y).IsWalkable) {
+			Location.x = x;
+			Location.y = y;
+		}
+	}
+	
+	/**
 	 * Handle input from the user.
 	 * @param event The event to process.
 	 */
