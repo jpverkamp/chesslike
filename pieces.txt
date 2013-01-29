@@ -1,0 +1,14 @@
+Player		@	1*
+Pawn		p	o1+, c1X 
+Bishop		b	nX
+Knight		k	~1/2
+Rook		r	r+
+Queen		Q	n*
+King		K	1*
+
+Archbishop	A	nX, ~1/2
+Chancellor	C	n+, ~1/2
+
+Camel		c	~1/3
+Dabbaba		d	~2+
+Wazir		w	1+
