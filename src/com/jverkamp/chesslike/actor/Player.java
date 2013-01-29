@@ -20,27 +20,42 @@ public class Player extends Actor {
 
 	@Override
 	public void input(KeyEvent event) {
+		int code = event.getKeyCode();
+		
 		// Move the player
-		switch(event.getKeyCode()) {
 		
-		case KeyEvent.VK_W:
-			if (World.getTile(Location.x, Location.y - 1).IsWalkable) Location.y -= 1;
-			break;
-			
-		case KeyEvent.VK_A:
-			if (World.getTile(Location.x - 1, Location.y).IsWalkable) Location.x -= 1;
-			break;
-			
-		case KeyEvent.VK_S:
-			if (World.getTile(Location.x, Location.y + 1).IsWalkable) Location.y += 1;
-			break;
-			
-		case KeyEvent.VK_D:
-			if (World.getTile(Location.x + 1, Location.y).IsWalkable) Location.x += 1;
-			break;
-		}
+		// UP LEFT
+		if (code == KeyEvent.VK_NUMPAD7)
+			moveTo(Location.x - 1, Location.y - 1);
 		
-		System.out.println("player is at " + Location);
+		// UP
+		else if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_NUMPAD8)
+			moveTo(Location.x, Location.y - 1);
+		
+		// UP RIGHT
+		else if (code == KeyEvent.VK_NUMPAD9)
+			moveTo(Location.x + 1, Location.y - 1);
+		
+		// LEFT
+		else if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_NUMPAD4)
+			moveTo(Location.x - 1, Location.y);
+		
+		// RIGHT
+		else if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_NUMPAD6)
+			moveTo(Location.x + 1, Location.y);
+		
+		// DOWN LEFT
+		if (code == KeyEvent.VK_NUMPAD1)
+			moveTo(Location.x - 1, Location.y + 1);
+		
+		// DOWN
+		else if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_NUMPAD2)
+			moveTo(Location.x, Location.y + 1);
+		
+		// DOWN RIGHT
+		else if (code == KeyEvent.VK_NUMPAD3)
+			moveTo(Location.x + 1, Location.y + 1);
+		
 		
 		// TODO: Check if we want to update the viewport
 	}
