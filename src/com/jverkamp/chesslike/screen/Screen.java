@@ -48,9 +48,7 @@ public abstract class Screen {
 	 * Respond to user input
 	 * @param The event to respond to.
 	 */
-	public final Screen doInput(KeyEvent event) {
-		System.out.println("input " + "(" + event.getKeyCode() + ")" + ": " + getClass().getSimpleName());
-		
+	public final Screen doInput(KeyEvent event) {		
 		if (Recur && Parent != null)
 			Parent = Parent.doInput(event);
 		
@@ -61,8 +59,6 @@ public abstract class Screen {
 	 * Draw this screen.
 	 */
 	public final void doDraw(AsciiPanel terminal) {
-		System.out.println("Draw: " + getClass().getSimpleName());
-		
 		if (Recur && Parent != null)
 			Parent.doDraw(terminal);
 		

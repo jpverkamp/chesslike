@@ -1,5 +1,6 @@
 package com.jverkamp.chesslike.actor;
 
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 
 import com.jverkamp.chesslike.Glyph;
@@ -11,7 +12,7 @@ import com.jverkamp.chesslike.world.World;
 public abstract class Actor {
 	World World;
 	
-	public int R, C;
+	public Point Location;
 	public Glyph Glyph;
 	
 	/**
