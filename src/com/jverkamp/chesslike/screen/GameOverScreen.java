@@ -18,7 +18,7 @@ public class GameOverScreen extends Screen {
 	 * @param terminal The terminal to draw to.
 	 */
 	@Override
-	public void input(KeyEvent event) {
+	protected void input(KeyEvent event) {
 		switch(event.getKeyChar()) {
 		default:
 			Screen.pop();
@@ -30,7 +30,7 @@ public class GameOverScreen extends Screen {
 	 * @param terminal The event to respond to.
 	 */
 	@Override
-	public void update() {
+	protected void update() {
 		Terminal.writeCenter("You win!", 9);
 		Terminal.writeCenter("Press any key to return to the menu", 11);
 	}

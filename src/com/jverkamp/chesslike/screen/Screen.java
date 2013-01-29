@@ -34,7 +34,7 @@ public abstract class Screen {
 	 * @param The event to respond to.
 	 */
 	public final void doInput(KeyEvent event) {
-		System.out.println("doing input in " + getClass().getSimpleName() + ", keyCode is " + event.getKeyCode());
+		System.out.println("input " + "(" + event.getKeyCode() + ")" + ": " + getClass().getSimpleName());
 		
 		if (Recur && Parent != null)
 			Parent.doInput(event);
@@ -46,7 +46,7 @@ public abstract class Screen {
 	 * Update this screen.
 	 */
 	public final void doUpdate() {
-		System.out.println("doing update in " + getClass().getSimpleName());
+		System.out.println("update: " + getClass().getSimpleName());
 		
 		if (Recur && Parent != null)
 			Parent.doUpdate();
@@ -77,10 +77,10 @@ public abstract class Screen {
 	 * Respond to user input
 	 * @param The event to respond to.
 	 */
-	public abstract void input(KeyEvent event);
+	protected abstract void input(KeyEvent event);
 	
 	/**
 	 * Update this screen.
 	 */
-	public abstract void update();
+	protected abstract void update();
 }
