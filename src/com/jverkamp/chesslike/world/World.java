@@ -43,28 +43,9 @@ public class World {
 		Tiles = new Tile[Width][Height];
 		
 		Actors = new ArrayList<Actor>();
-		
 		Log = new ArrayList<String>();
 		
 		log("Round " + Round);
-		
-		// Randomly generate open and closed areas.
-		for (int x = 0; x < Width; x++)
-			for (int y = 0; y < Height; y++)
-				Tiles[x][y] = (Rand.nextDouble() < 0.75 ? Tile.FLOOR : Tile.WALL);
-		
-		// Apply smoothing
-		int x, y, walls;
-		for (int i = 0; i < 1000000; i++) {
-			x = Rand.nextInt(Width - 2) + 1;
-			y = Rand.nextInt(Height - 2) + 1;
-			walls = 0;
-			for (Tile t : neighbors8(x, y))
-				if (t.equals(Tile.WALL)) walls++;
-			
-			if (walls < 4) Tiles[x][y] = Tile.FLOOR;
-			if (walls > 4) Tiles[x][y] = Tile.WALL;
-		}
 	}
 		
 	/**
@@ -84,21 +65,6 @@ public class World {
 		Collections.shuffle(neighbors);
 		
 		return neighbors;
-	}
-	
-	/**
-	 * Add a player to the world at a random empty location.
-	 */
-	public void addPlayer() {
-		Actor player = new Queen(this, 0);
-		Actors.add(player);
-		ActiveActor = player;
-		CurrentMove = new Point(ActiveActor.Location.x, ActiveActor.Location.y);
-		
-		// TODO: DEBUG
-		for (int i = 1; i < 4; i++) {
-			Actors.add(new Pawn(this, i));
-		}
 	}
 	
 	/**

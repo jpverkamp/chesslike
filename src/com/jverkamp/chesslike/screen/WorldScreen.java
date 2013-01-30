@@ -5,6 +5,8 @@ import java.awt.event.KeyEvent;
 
 import trystans.asciiPanel.AsciiPanel;
 
+import com.jverkamp.chesslike.world.LandscapeFactory;
+import com.jverkamp.chesslike.world.PiecesFactory;
 import com.jverkamp.chesslike.world.World;
 
 public class WorldScreen extends Screen {
@@ -18,6 +20,21 @@ public class WorldScreen extends Screen {
 		World = world;
 	}
 	
+	/**
+	 * Create a new world screen with a given set of generators.
+	 * @param landscape The landscape to generate.
+	 * @param pieces The pieces to generate.
+	 */
+	public WorldScreen(String landscape, String pieces) {
+		this(null);
+		
+		World = new World(58, 18);
+		World.setViewSize(58, 18);
+		
+		LandscapeFactory.run(World, landscape);
+		PiecesFactory.run(World, pieces);
+	}
+
 	/**
 	 * Handle input.
 	 * @param event Keyboard event.
