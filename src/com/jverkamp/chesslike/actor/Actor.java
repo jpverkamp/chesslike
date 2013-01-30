@@ -55,6 +55,7 @@ public abstract class Actor {
 		
 		// Check if there's something there to capture.
 		Actor that = World.getActorAt(x, y);
+		if (this == that) that = null;
 		
 		// Empty, check if it's valid.
 		if (that == null) {

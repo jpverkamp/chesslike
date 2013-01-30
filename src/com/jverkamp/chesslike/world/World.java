@@ -8,8 +8,7 @@ import java.util.*;
 
 import trystans.asciiPanel.AsciiPanel;
 
-import com.jverkamp.chesslike.actor.Actor;
-import com.jverkamp.chesslike.actor.King;
+import com.jverkamp.chesslike.actor.*;
 import com.jverkamp.chesslike.tile.Tile;
 
 public class World {
@@ -83,14 +82,15 @@ public class World {
 	 * Add a player to the world at a random empty location.
 	 */
 	public void addPlayer() {
-		Actor player = new King(this, 0);
+		Actor player = new Rook(this, 0);
 		Actors.add(player);
 		ActiveActor = player;
 		CurrentMove = new Point(ActiveActor.Location.x, ActiveActor.Location.y);
 		
 		// TODO: DEBUG
-		for (int i = 0; i < 4; i++)
-			Actors.add(new King(this, i));
+		for (int i = 1; i < 4; i++) {
+			Actors.add(new Pawn(this, i));
+		}
 	}
 	
 	/**
@@ -146,7 +146,6 @@ public class World {
 		}
 		
 		// Move the cursor
-		
 		int x = CurrentMove.x, y = CurrentMove.y;
 		if (Rand.nextInt(10) < 0) { // Yes, the only reason this is here is for alignment. So sue me.
 		} else if (code == KeyEvent.VK_NUMPAD1) {
@@ -168,16 +167,8 @@ public class World {
 		} else if (code == KeyEvent.VK_NUMPAD9) {
 			x += 1; y -= 1; // up right
 		}
-		if (ActiveActor.validMove(x, y)) {
-			CurrentMove.x = x;
-			CurrentMove.y = y;
-		}
-		
-		// Make sure it's still valid.
-		
-		
-//		for (Actor actor : Actors)
-//			actor.input(event);
+		CurrentMove.x = x;
+		CurrentMove.y = y;
 	}
 	
 	/**
