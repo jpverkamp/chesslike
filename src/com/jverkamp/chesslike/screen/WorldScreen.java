@@ -34,7 +34,7 @@ public class WorldScreen extends Screen {
 	 */
 	@Override
 	protected void draw(AsciiPanel terminal) {
-		terminal.clear('#', 0, 0, 60, 24);
-		World.draw(terminal, new Rectangle(1, 1, 58, 22));
+		terminal.clear('#', 0, 0, 60, 22);
+		World.draw(terminal, new Rectangle(1, 1, 58, 20));
 	}
 }

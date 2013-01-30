@@ -21,7 +21,7 @@ public class MainMenuScreen extends Screen {
 		// DEBUG: On enter, win the game
 		case KeyEvent.VK_ENTER:
 			World world = new World(40, 20);
-			world.setViewSize(58, 22);
+			world.setViewSize(58, 20);
 			world.addPlayer();
 			
 			return new WorldScreen(world);
