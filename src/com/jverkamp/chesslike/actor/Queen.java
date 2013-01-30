@@ -134,12 +134,4 @@ public class Queen extends Actor {
 		// Anything else fails
 		return false;
 	}
-
-	/**
-	 * Calulate a move from the AI.
-	 */
-	@Override
-	public void AI() {
-		// TODO: Implement this.
-	}
 }

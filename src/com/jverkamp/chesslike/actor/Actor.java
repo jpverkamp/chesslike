@@ -2,6 +2,7 @@ package com.jverkamp.chesslike.actor;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.*;
 
 import com.jverkamp.chesslike.Glyph;
 import com.jverkamp.chesslike.tile.Tile;
@@ -39,6 +40,15 @@ public abstract class Actor {
 			Location.x = World.Rand.nextInt(World.Height);
 			Location.y = World.Rand.nextInt(World.Width);
 		} while(!World.getTile(Location.x, Location.y).equals(Tile.FLOOR));
+	}
+	
+	/**
+	 * Stringify this piece.
+	 * @return A string version.
+	 */
+	@Override
+	public String toString() {
+		return "" + getClass().getSimpleName() + "@" + super.toString().split("@")[1] + "(" + Location.x + ", " + Location.y + ")";
 	}
 	
 	/**
@@ -107,5 +117,37 @@ public abstract class Actor {
 	/**
 	 * Run the actor's AI.
 	 */
-	public abstract void AI();
+	public void AI() {
+		System.out.println("Running AI on " + this);
+		
+		// Get a list of all valid moves and captures
+		List<int[]> moves = new ArrayList<int[]>();
+		List<int[]> captures = new ArrayList<int[]>();
+		
+		for (int x = 0; x < World.Height; x++) {
+			for (int y = 0; y < World.Width; y++) {
+				if (x == Location.x && y == Location.y)
+					continue;
+				
+				Actor a = World.getActorAt(x, y);
+				
+				if (validMove(x, y)) moves.add(new int[]{x, y});
+				if (validCapture(x, y) && a != null && a.Team != Team) captures.add(new int[]{x, y});
+			}
+		}
+		
+		// If we can capture, do so
+		if (!captures.isEmpty()) {
+			int[] target = captures.get(World.Rand.nextInt(captures.size()));
+			go(target[0], target[1]);
+		}
+		
+		// If we can't, just move somewhere
+		else if (!moves.isEmpty()) {
+			int[] target = moves.get(World.Rand.nextInt(moves.size()));
+			go(target[0], target[1]);
+		}
+		
+		// If we can't even do that, just don't do anything.
+	}
 }
