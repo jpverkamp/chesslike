@@ -2,9 +2,9 @@ package com.jverkamp.chesslike.actor;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
 
 import com.jverkamp.chesslike.Glyph;
+import com.jverkamp.chesslike.tile.Tile;
 import com.jverkamp.chesslike.world.World;
 
 /**
@@ -17,7 +17,7 @@ public abstract class Actor {
 	public Glyph Glyph;
 	
 	// 0 means player controlled. Teams have to be different to capture.
-	int Team = 0;
+	public int Team = 0;
 	static Color[] TeamColor = new Color[]{
 		Color.RED,
 		Color.BLUE,
@@ -29,9 +29,16 @@ public abstract class Actor {
 	 * Create a new actor.
 	 * @param world The world to place the actor in.
 	 */
-	public Actor(World world, Glyph glyph) {
+	public Actor(World world, char glyph, int team) {
 		World = world;
-		Glyph = glyph;
+		Glyph = new Glyph(glyph, TeamColor[team]);
+		Team = team;
+		
+		Location = new Point();
+		do {
+			Location.x = World.Rand.nextInt(World.Height);
+			Location.y = World.Rand.nextInt(World.Width);
+		} while(!World.getTile(Location.x, Location.y).equals(Tile.FLOOR));
 	}
 	
 	/**
@@ -39,11 +46,12 @@ public abstract class Actor {
 	 * 
 	 * @param x Location x
 	 * @param y Location y
+	 * @return If we can successfully move there.
 	 */
-	public void go(int x, int y) {
+	public boolean go(int x, int y) {
 		// If the tile isn't walkable, don't move.
 		if (!World.getTile(x, y).IsWalkable)
-			return;
+			return false;
 		
 		// Check if there's something there to capture.
 		Actor that = World.getActorAt(x, y);
@@ -53,6 +61,9 @@ public abstract class Actor {
 			if (validMove(x, y)) {
 				Location.x = x;
 				Location.y = y;
+				return true;
+			} else {
+				return false;
 			}
 		} 
 		
@@ -67,15 +78,12 @@ public abstract class Actor {
 					" is trying to capture " + 
 					that.getClass().getSimpleName() + " @ " + x + "/" + y
 				);
+				return true;
+			} else {
+				return false;
 			}
 		}
 	}
-	
-	/**
-	 * Handle input from the user.
-	 * @param event The event to process.
-	 */
-	public abstract void input(KeyEvent event);
 	
 	/**
 	 * Test if a given piece can make a valid move to the given location.
@@ -92,4 +100,9 @@ public abstract class Actor {
 	 * @return If the piece can capture that location (assuming there is a piece there).
 	 */
 	public abstract boolean validCapture(int x, int y);
+
+	/**
+	 * Run the actor's AI.
+	 */
+	public abstract void AI();
 }

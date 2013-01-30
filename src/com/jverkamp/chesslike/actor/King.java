@@ -1,10 +1,5 @@
 package com.jverkamp.chesslike.actor;
 
-import java.awt.Point;
-import java.awt.event.KeyEvent;
-
-import com.jverkamp.chesslike.Glyph;
-import com.jverkamp.chesslike.tile.Tile;
 import com.jverkamp.chesslike.world.World;
 
 public class King extends Actor {
@@ -14,59 +9,7 @@ public class King extends Actor {
 	 * @param team The team to add the player to.
 	 */
 	public King(World world, int team) {
-		super(world, new Glyph('@', TeamColor[team]));
-		
-		Team = team;
-		
-		Location = new Point();
-		do {
-			Location.x = World.Rand.nextInt(World.Height);
-			Location.y = World.Rand.nextInt(World.Width);
-		} while(!World.getTile(Location.x, Location.y).equals(Tile.FLOOR));
-		
-		System.out.println("Created " + getClass().getSimpleName() + " at " + Location.x + "/" + Location.y);
-	}
-
-	@Override
-	public void input(KeyEvent event) {
-		int code = event.getKeyCode();
-		
-		// Move the player
-
-		// UP LEFT
-		if (code == KeyEvent.VK_NUMPAD7)
-			go(Location.x - 1, Location.y - 1);
-		
-		// UP
-		else if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP || code == KeyEvent.VK_NUMPAD8)
-			go(Location.x, Location.y - 1);
-		
-		// UP RIGHT
-		else if (code == KeyEvent.VK_NUMPAD9)
-			go(Location.x + 1, Location.y - 1);
-		
-		// LEFT
-		else if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT || code == KeyEvent.VK_NUMPAD4)
-			go(Location.x - 1, Location.y);
-		
-		// RIGHT
-		else if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_NUMPAD6)
-			go(Location.x + 1, Location.y);
-		
-		// DOWN LEFT
-		if (code == KeyEvent.VK_NUMPAD1)
-			go(Location.x - 1, Location.y + 1);
-		
-		// DOWN
-		else if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN || code == KeyEvent.VK_NUMPAD2)
-			go(Location.x, Location.y + 1);
-		
-		// DOWN RIGHT
-		else if (code == KeyEvent.VK_NUMPAD3)
-			go(Location.x + 1, Location.y + 1);
-		
-		
-		// TODO: Check if we want to update the viewport
+		super(world, '@', team);
 	}
 
 	/**
@@ -77,7 +20,9 @@ public class King extends Actor {
 	 */
 	@Override
 	public boolean validMove(int x, int y) {
-		return World.getTile(x, y).IsWalkable && Math.abs(x - Location.x) <= 1 && Math.abs(y - Location.y) <= 1;
+		return (World.getTile(x, y).IsWalkable && 
+				Math.abs(x - Location.x) <= 1 && 
+				Math.abs(y - Location.y) <= 1);
 	}
 
 	/**
@@ -88,6 +33,16 @@ public class King extends Actor {
 	 */
 	@Override
 	public boolean validCapture(int x, int y) {
-		return World.getTile(x, y).IsWalkable && Math.abs(x - Location.x) <= 1 && Math.abs(y - Location.y) <= 1;
+		return (World.getTile(x, y).IsWalkable && 
+				Math.abs(x - Location.x) <= 1 && 
+				Math.abs(y - Location.y) <= 1);
+	}
+
+	/**
+	 * Calulate a move from the AI.
+	 */
+	@Override
+	public void AI() {
+		// TODO: Implement this.
 	}
 }
