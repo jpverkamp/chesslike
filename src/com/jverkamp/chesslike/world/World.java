@@ -14,10 +14,11 @@ import com.jverkamp.chesslike.tile.Tile;
 public class World {
 	public Random Rand = new Random();
 	
-	// The actual world contents	
+	// The actual world contents
 	public int Width, Height;
 	Tile[][] Tiles;
 	List<Actor> Actors;
+	int Round = 1;
 	
 	// The current active actor
 	Actor ActiveActor;
@@ -25,6 +26,9 @@ public class World {
 	
 	// The slice the user can currently see
 	Rectangle View;
+	
+	// Log messages
+	List<String> Log;
 	
 	/**
 	 * Create a new world
@@ -39,6 +43,10 @@ public class World {
 		Tiles = new Tile[Width][Height];
 		
 		Actors = new ArrayList<Actor>();
+		
+		Log = new ArrayList<String>();
+		
+		log("Round " + Round);
 		
 		// Randomly generate open and closed areas.
 		for (int x = 0; x < Width; x++)
@@ -132,6 +140,14 @@ public class World {
 	}
 	
 	/**
+	 * Log a new message.
+	 * @param msg The new message to log.
+	 */
+	public void log(String msg) {
+		Log.add(0, msg);
+	}
+	
+	/**
 	 * Respond to user input
 	 * @param The event to respond to.
 	 */
@@ -194,6 +210,8 @@ public class World {
 		if (i >= Actors.size()) {
 			//Collections.shuffle(Actors);
 			i = 0;
+			Round += 1;
+			log("Round " + Round);
 		}
 		ActiveActor = Actors.get(i);
 		
@@ -258,6 +276,11 @@ public class World {
 					);
 				}
 			}
-		}
+		} // draw tiles
+		
+		// Draw the most recent log message
+		for (int i = 0; i < 3; i++)
+			if (i < Log.size())
+				terminal.write(Log.get(i), 0, terminal.getHeightInCharacters() - 1 - i, Color.WHITE);
 	}
 }

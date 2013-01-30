@@ -20,8 +20,8 @@ public class MainMenuScreen extends Screen {
 		switch(event.getKeyCode()) {
 		// DEBUG: On enter, win the game
 		case KeyEvent.VK_ENTER:
-			World world = new World(40, 20);
-			world.setViewSize(58, 20);
+			World world = new World(58, 18);
+			world.setViewSize(58, 18);
 			world.addPlayer();
 			
 			return new WorldScreen(world);

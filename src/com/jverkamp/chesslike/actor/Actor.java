@@ -74,11 +74,13 @@ public abstract class Actor {
 				// TODO: Deal with this logic
 				// - remove the piece
 				// - potentially take it over
-				System.err.println(
-					getClass().getSimpleName() + " @ " + x + "/" + y + 
-					" is trying to capture " + 
-					that.getClass().getSimpleName() + " @ " + x + "/" + y
-				);
+				String msg = getClass().getSimpleName() + " @ " + x + "/" + y + 
+						" is trying to capture " + 
+						that.getClass().getSimpleName() + " @ " + x + "/" + y;
+				
+				System.err.println(msg);
+				World.log(msg);
+				
 				return true;
 			} else {
 				return false;
