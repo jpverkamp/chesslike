@@ -128,6 +128,22 @@ public class World {
 		return null;
 	}
 	
+	/**
+	 * Remove the actor at a given location.
+	 * @param x The x location to remove.
+	 * @param y The y location to remove.
+	 * @return 
+	 */
+	public Actor removeActorAt(int x, int y) {
+		for (int i = 0; i < Actors.size(); i++) {
+			Actor a = Actors.get(i);
+			if (a.Location.x == x && a.Location.y == y) {
+				Actors.remove(i);
+				return a;
+			}
+		}
+		return null;
+	}
 	
 	/**
 	 * Set the size of the view into the world.

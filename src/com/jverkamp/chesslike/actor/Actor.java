@@ -81,15 +81,16 @@ public abstract class Actor {
 		// Potential enemy, try to attack it.
 		else {
 			if (Team != that.Team && validCapture(x, y)) {
-				// TODO: Deal with this logic
-				// - remove the piece
-				// - potentially take it over
-				String msg = getClass().getSimpleName() + " @ " + x + "/" + y + 
-						" is trying to capture " + 
-						that.getClass().getSimpleName() + " @ " + x + "/" + y;
+				// Remove the target piece and take its place
+				Actor a = World.removeActorAt(x, y);
+				Location.x = x;
+				Location.y = y;
 				
-				System.err.println(msg);
-				World.log(msg);
+				World.log(
+					(Team == 0 ? "Player" : "Computer " + Team) + "'s " + getClass().getSimpleName() + 
+					" captured " +
+					(a.Team == 0 ? "Player" : "Computer " + Team) + "'s " + a.getClass().getSimpleName()
+				);
 				
 				return true;
 			} else {
@@ -118,8 +119,6 @@ public abstract class Actor {
 	 * Run the actor's AI.
 	 */
 	public void AI() {
-		System.out.println("Running AI on " + this);
-		
 		// Get a list of all valid moves and captures
 		List<int[]> moves = new ArrayList<int[]>();
 		List<int[]> captures = new ArrayList<int[]>();
