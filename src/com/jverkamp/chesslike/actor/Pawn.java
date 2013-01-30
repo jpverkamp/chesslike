@@ -2,14 +2,14 @@ package com.jverkamp.chesslike.actor;
 
 import com.jverkamp.chesslike.world.World;
 
-public class King extends Actor {
+public class Pawn extends Actor {
 	/**
 	 * Create a new piece.
 	 * @param world The world to create the piece in.
 	 * @param team The team to add the piece to.
 	 */
-	public King(World world, int team) {
-		super(world, 'K', team);
+	public Pawn(World world, int team) {
+		super(world, 'p', team);
 	}
 
 	/**
@@ -21,8 +21,8 @@ public class King extends Actor {
 	@Override
 	public boolean validMove(int x, int y) {
 		return (World.getTile(x, y).IsWalkable && 
-				Math.abs(x - Location.x) <= 1 && 
-				Math.abs(y - Location.y) <= 1);
+				((Math.abs(x - Location.x) <= 1 && Math.abs(y - Location.y) == 0) ||
+				 (Math.abs(x - Location.x) == 0 && Math.abs(y - Location.y) <= 1)));
 	}
 
 	/**
@@ -34,8 +34,8 @@ public class King extends Actor {
 	@Override
 	public boolean validCapture(int x, int y) {
 		return (World.getTile(x, y).IsWalkable && 
-				Math.abs(x - Location.x) <= 1 && 
-				Math.abs(y - Location.y) <= 1);
+				(Math.abs(x - Location.x) == 1 && 
+						Math.abs(y - Location.y) == 1));
 	}
 
 	/**
