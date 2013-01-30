@@ -28,7 +28,6 @@ public class MainPanel extends JPanel implements KeyListener {
 		setFocusable(true);
 		setLayout(new BorderLayout());
 		add(Terminal);
-		System.out.println(Terminal.getWidth() + ", " + Terminal.getHeight());
 		
 		// Add the key listener
 		requestFocus();

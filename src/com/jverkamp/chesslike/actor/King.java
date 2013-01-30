@@ -37,12 +37,4 @@ public class King extends Actor {
 				Math.abs(x - Location.x) <= 1 && 
 				Math.abs(y - Location.y) <= 1);
 	}
-
-	/**
-	 * Calulate a move from the AI.
-	 */
-	@Override
-	public void AI() {
-		// TODO: Implement this.
-	}
 }

@@ -66,12 +66,4 @@ public class Knight extends Actor {
 		// Failed
 		return false;
 	}
-
-	/**
-	 * Calulate a move from the AI.
-	 */
-	@Override
-	public void AI() {
-		// TODO: Implement this.
-	}
 }

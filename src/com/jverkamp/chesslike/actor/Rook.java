@@ -91,12 +91,4 @@ public class Rook extends Actor {
 		
 		return true;
 	}
-
-	/**
-	 * Calulate a move from the AI.
-	 */
-	@Override
-	public void AI() {
-		// TODO: Implement this.
-	}
 }
