@@ -1,6 +1,7 @@
 package com.jverkamp.chesslike.world;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.*;
@@ -21,6 +22,7 @@ public class World {
 	
 	// The current active actor
 	Actor ActiveActor;
+	Point CurrentMove;
 	
 	// The slice the user can currently see
 	Rectangle View;
@@ -84,6 +86,11 @@ public class World {
 		Actor player = new King(this, 0);
 		Actors.add(player);
 		ActiveActor = player;
+		CurrentMove = new Point(ActiveActor.Location.x, ActiveActor.Location.y);
+		
+		// TODO: DEBUG
+		for (int i = 0; i < 4; i++)
+			Actors.add(new King(this, i));
 	}
 	
 	/**
@@ -129,10 +136,90 @@ public class World {
 	 * @param The event to respond to.
 	 */
 	public void input(KeyEvent event) {
-		for (Actor actor : Actors)
-			actor.input(event);
+		int code = event.getKeyCode();
+		
+		// Actually execute a move.
+		if (code == KeyEvent.VK_ENTER || code == KeyEvent.VK_SPACE) {
+			// Do the move.
+			if (ActiveActor.go(CurrentMove.x, CurrentMove.y))
+				advanceActiveActor();
+		}
+		
+		// Move the cursor
+		
+		int x = CurrentMove.x, y = CurrentMove.y;
+		if (Rand.nextInt(10) < 0) { // Yes, the only reason this is here is for alignment. So sue me.
+		} else if (code == KeyEvent.VK_NUMPAD1) {
+			x -= 1; y += 1; // down left
+		} else if (code == KeyEvent.VK_NUMPAD2 || code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+			        y += 1; // down
+		} else if (code == KeyEvent.VK_NUMPAD3) {
+			x += 1; y += 1; // down right
+		} else if (code == KeyEvent.VK_NUMPAD4 || code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+			x -= 1;         // left
+		} else if (code == KeyEvent.VK_NUMPAD5) {
+
+		} else if (code == KeyEvent.VK_NUMPAD6 || code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+			x += 1;         // right
+		} else if (code == KeyEvent.VK_NUMPAD7) {
+			x -= 1; y -= 1; // up left
+		} else if (code == KeyEvent.VK_NUMPAD8 || code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+			        y -= 1; // up
+		} else if (code == KeyEvent.VK_NUMPAD9) {
+			x += 1; y -= 1; // up right
+		}
+		if (ActiveActor.validMove(x, y)) {
+			CurrentMove.x = x;
+			CurrentMove.y = y;
+		}
+		
+		// Make sure it's still valid.
+		
+		
+//		for (Actor actor : Actors)
+//			actor.input(event);
 	}
 	
+	/**
+	 * Move the active actor forwards.
+	 * 
+	 * When it hits a computer piece, run their AI and call this again.
+	 * When it hits a player piece, reset the CurrentMove.
+	 * When it runs off the end, advance the turn.
+	 */
+	private void advanceActiveActor() {
+		// Find the index of the current actor.
+		int i;
+		for (i = 0; i < Actors.size(); i++) {
+			if (ActiveActor.equals(Actors.get(i)))
+				break;
+		}
+		
+		// Advance
+		i++;
+		
+		// We're off the end, next turn.
+		// TODO: Do I want to do anything else?
+		if (i >= Actors.size()) {
+			//Collections.shuffle(Actors);
+			i = 0;
+		}
+		ActiveActor = Actors.get(i);
+		
+		// We have a human piece
+		if (ActiveActor.Team == 0) {
+			CurrentMove.x = ActiveActor.Location.x;
+			CurrentMove.y = ActiveActor.Location.y;
+			return;
+		}
+		
+		// Otherwise, computer player.
+		else {
+			ActiveActor.AI();
+			advanceActiveActor();
+		}
+	}
+
 	/**
 	 * Draw this screen.
 	 * @param terminal The panel to draw to.
@@ -158,7 +245,9 @@ public class World {
 						region.x + xi,
 						region.y + yi,
 						t.Glyph.Color,
-						ActiveActor.validMove(View.x + xi, View.y + yi) ? Color.DARK_GRAY : Color.BLACK
+						(View.x + xi == CurrentMove.x && View.y + yi == CurrentMove.y) ? Color.GRAY :
+							ActiveActor.validMove(View.x + xi, View.y + yi) ? Color.DARK_GRAY : 
+								Color.BLACK
 					);	
 				} 
 				
@@ -169,7 +258,9 @@ public class World {
 						region.x + xi,
 						region.y + yi,
 						ActiveActor.equals(a) ? Color.WHITE : a.Glyph.Color,
-						ActiveActor.validCapture(View.x + xi, View.y + yi) ? Color.DARK_GRAY : Color.BLACK
+						(View.x + xi == CurrentMove.x && View.y + yi == CurrentMove.y) ? Color.GRAY :
+							ActiveActor.validCapture(View.x + xi, View.y + yi) ? Color.DARK_GRAY : 
+								Color.BLACK
 					);
 				}
 			}
