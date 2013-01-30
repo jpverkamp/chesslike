@@ -211,6 +211,10 @@ public class World {
 	 * When it runs off the end, advance the turn.
 	 */
 	private void advanceActiveActor() {
+		// If there are no more active actors, bail out.
+		if (Actors.size() == 0 || playerLoses())
+			return;
+		
 		// Find the index of the current actor.
 		int i;
 		for (i = 0; i < Actors.size(); i++) {
@@ -298,5 +302,29 @@ public class World {
 		for (int i = 0; i < 3; i++)
 			if (i < Log.size())
 				terminal.write(Log.get(i), 0, terminal.getHeightInCharacters() - 1 - i, Color.WHITE);
+	}
+
+	/**
+	 * Check if the player wins (no other team's pieces).
+	 * @return If the player wins.
+	 */
+	public boolean playerWins() {
+		for (Actor a : Actors) 
+			if (a.Team != 0)
+				return false;
+		
+		return true;
+	}
+
+	/**
+	 * Check if the player loses (no player's pieces).
+	 * @return If the player loses.
+	 */
+	public boolean playerLoses() {
+		for (Actor a : Actors) 
+			if (a.Team == 0)
+				return false;
+		
+		return true;
 	}
 }
