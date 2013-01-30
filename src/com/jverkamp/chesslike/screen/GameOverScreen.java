@@ -30,7 +30,7 @@ public class GameOverScreen extends Screen {
 	 */
 	@Override
 	protected void draw(AsciiPanel terminal) {
-		terminal.writeCenter("You win!", 9);
+		terminal.writeCenter(Won ? "You win! " + (char) 2 : "You lose! :(", 9);
 		terminal.writeCenter("Press any key to return to the menu", 11);
 	}
 }

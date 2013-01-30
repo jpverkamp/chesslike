@@ -25,6 +25,14 @@ public class WorldScreen extends Screen {
 	@Override
 	protected Screen input(KeyEvent event) {
 		World.input(event);
+		
+		// Check to 
+		if (World.playerWins()) {
+			return new GameOverScreen(true);
+		} else if (World.playerLoses()) {
+			return new GameOverScreen(false);
+		}
+		
 		return this;
 	}
 
@@ -36,5 +44,30 @@ public class WorldScreen extends Screen {
 	protected void draw(AsciiPanel terminal) {
 		terminal.clear((char) 219, 0, 0, 60, 20);
 		World.draw(terminal, new Rectangle(1, 1, 58, 18));
+		
+		// Help functions
+		String[] lines = new String[]{
+				"Pieces",
+				"------",
+				"p - Pawn",
+				"b - Bishop",
+				"k - Knight",
+				"r - Rook",
+				"Q - Queen",
+				"K - King",
+				"",
+				"Capture all of the",
+				"enemy pieces to",
+				"win.",
+				"",
+				"Use WASD, arrows,",
+				"or numpad to",
+				"select and ENTER/",
+				"SPACE to move.",
+				"",
+				"Good luck!"
+		};
+		for (int i = 0; i < lines.length; i++)
+			terminal.write(lines[i], 61, i);
 	}
 }
