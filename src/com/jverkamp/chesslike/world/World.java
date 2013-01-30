@@ -90,7 +90,7 @@ public class World {
 	 * Add a player to the world at a random empty location.
 	 */
 	public void addPlayer() {
-		Actor player = new Knight(this, 0);
+		Actor player = new Queen(this, 0);
 		Actors.add(player);
 		ActiveActor = player;
 		CurrentMove = new Point(ActiveActor.Location.x, ActiveActor.Location.y);
