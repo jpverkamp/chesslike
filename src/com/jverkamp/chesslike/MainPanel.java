@@ -3,7 +3,6 @@ package com.jverkamp.chesslike;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.*;
 
 import javax.swing.*;
 
@@ -11,50 +10,54 @@ import com.jverkamp.chesslike.screen.*;
 
 import trystans.asciiPanel.AsciiPanel;
 
-public class Main extends JFrame implements KeyListener {
+public class MainPanel extends JPanel implements KeyListener {
 	private static final long serialVersionUID = -2378686147116641155L;
 	
-	AsciiPanel Terminal;
-	Screen BaseScreen;
-	
-	/**
-	 * Run from the command line.
-	 * @param args Command line parameters.
-	 */
-	public static void main(String[] args) throws IOException {
-		new Main().setVisible(true);
-	}
-	
+	boolean Initialized = false;
+	AsciiPanel Terminal = new AsciiPanel();
+	Screen BaseScreen = new MainMenuScreen();
+
 	/**
 	 * Create a new main frame.
 	 */
-	public Main() {
-		super("ChessLike");
-		
-		// Set up the terminal.
-		Terminal = new AsciiPanel();
-		BaseScreen = new MainMenuScreen();
+	public MainPanel() {
+		// Initialize.
+		init();
 		
 		// Set up the UI
+		setFocusable(true);
 		setLayout(new BorderLayout());
 		add(Terminal);
-		pack();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocation(200, 200);
+		System.out.println(Terminal.getWidth() + ", " + Terminal.getHeight());
 		
 		// Add the key listener
+		requestFocus();
 		addKeyListener(this);
 		
 		// Force the first repaint.
 		repaint();
 	}
-	
+
+	/**
+	 * Initialize.
+	 * @return
+	 */
+	public void init() {
+		Terminal = new AsciiPanel();
+		BaseScreen = new MainMenuScreen();
+
+		Initialized = true;
+	}
 	
 	/**
 	 * Redraw the screen on repaint.
 	 */
 	public void repaint() {
 		super.repaint();
+		requestFocus();
+		
+		if (!Initialized) return;
+			
 		Terminal.clear();
 		
 		if (BaseScreen == null)
@@ -68,6 +71,8 @@ public class Main extends JFrame implements KeyListener {
 	@Override public void keyPressed(KeyEvent e) {}
 	
 	@Override public void keyReleased(KeyEvent e) {
+		if (!Initialized) return;
+		
 		if (BaseScreen != null)
 			BaseScreen = BaseScreen.doInput(e);
 		

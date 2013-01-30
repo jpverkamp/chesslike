@@ -220,6 +220,9 @@ public class World {
 		if (View.width != region.width || View.height != region.height)
 			throw new IllegalArgumentException("Region size doesn't match view size");
 		
+		// Reset the view area.
+		
+		
 		// Draw tiles
 		for (int xi = 0; xi < View.width; xi++) {
 			for (int yi = 0; yi < View.height; yi++) {
