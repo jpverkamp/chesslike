@@ -1,5 +1,6 @@
 package com.jverkamp.chesslike.screen;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 import trystans.asciiPanel.AsciiPanel;
@@ -17,7 +18,7 @@ public class MainMenuScreen extends Screen {
 		int code = event.getKeyCode();
 		
 		if (code == KeyEvent.VK_ENTER) {
-			return new WorldIntroScreen(new WorldScreen(null, 1));
+			return new WorldIntroScreen(new WorldScreen(Color.GREEN, 2));
 		} else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			return null;
 		}

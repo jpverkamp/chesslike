@@ -52,6 +52,26 @@ public class World {
 		
 		log("Round " + Round);
 	}
+	
+	/**
+	 * Iterate over the orthagonal neighbors of a given tile.
+	 * Note: The points are shuffled before being returned to avoid top left bias.
+	 * 
+	 * @param x The point's x to iterate around.
+	 * @param y The point's y to iterate around.
+	 * @return The resulting neighborhood.
+	 */
+	public Iterable<Tile> neighbors4(int x, int y) {
+		List<Tile> neighbors = new ArrayList<Tile>();
+		for (int xi = x - 1; xi <= x + 1; xi++)
+			for (int yi = y - 1; yi <= y + 1; yi++)
+				if ((xi != x || yi != y) && (xi == x || yi == y)) 
+					neighbors.add(getTile(xi, yi));
+		
+		Collections.shuffle(neighbors);
+		
+		return neighbors;
+	}
 		
 	/**
 	 * Iterate over the neighbors of a given tile.
@@ -65,7 +85,8 @@ public class World {
 		List<Tile> neighbors = new ArrayList<Tile>();
 		for (int xi = x - 1; xi <= x + 1; xi++)
 			for (int yi = y - 1; yi <= y + 1; yi++)
-				neighbors.add(getTile(x, y));
+				if (xi != x || yi != y)
+					neighbors.add(getTile(xi, yi));
 		
 		Collections.shuffle(neighbors);
 		

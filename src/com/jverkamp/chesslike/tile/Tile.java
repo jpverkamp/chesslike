@@ -19,6 +19,8 @@ public class Tile {
 	public static final Tile FLOOR = new Tile(' ', Color.BLACK);
 	public static final Tile GRASS_1 = new Tile('.', Color.BLACK);
 	public static final Tile GRASS_2 = new Tile(',', Color.GREEN);
+	public static final Tile MUD_1 = new Tile('.', new Color(139, 69, 19) /* BROWN */);
+	public static final Tile MUD_2 = new Tile(',', new Color(139, 69, 19) /* BROWN */);
 	public static final Tile PEW = new Tile((char) 186, new Color(139, 69, 19) /* BROWN */);
 	public static final Tile THRONE = new Tile((char) 233, new Color(255, 215, 0) /* GOLD */);
 	
@@ -39,6 +41,8 @@ public class Tile {
 		FLOOR.IsWalkable = true;
 		GRASS_1.IsWalkable = true;
 		GRASS_2.IsWalkable = true;
+		MUD_1.IsWalkable = true;
+		MUD_2.IsWalkable = true;
 		PEW.IsWalkable = true;
 		THRONE.IsWalkable = true;
 		STAIRS.IsWalkable = true;

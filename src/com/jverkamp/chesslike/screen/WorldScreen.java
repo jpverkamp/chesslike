@@ -40,7 +40,7 @@ public class WorldScreen extends Screen {
 		List<Actor> valiants = new ArrayList<Actor>();
 		valiants.add(new King(World, 0));
 		
-		LevelFactory.run(World, valiants, Color.WHITE, depth);
+		LevelFactory.run(World, valiants, stairs, depth);
 	}
 
 	/**
@@ -65,8 +65,6 @@ public class WorldScreen extends Screen {
 		
 		// Check for stairway
 		else if (stairColor != null) {
-			System.out.println("Descending a stair of color " + stairColor);
-			
 			return new WorldIntroScreen(new WorldScreen(stairColor, CurrentDepth + 1));
 		}
 		
