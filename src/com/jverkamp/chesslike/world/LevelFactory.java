@@ -45,7 +45,9 @@ public class LevelFactory {
 				}
 				
 				// Place a random stairway downwards.
-				world.Tiles[world.Rand.nextInt(world.Width / 2) + world.Width / 2][world.Rand.nextInt(world.Height / 2) + world.Height / 4] = Tile.stairs(Color.WHITE);
+				int x = world.Rand.nextInt(world.Width / 2) + world.Width / 2;
+				int y = world.Rand.nextInt(world.Height / 2) + world.Height / 4;
+				world.Tiles[x][y] = Tile.stairs(Color.WHITE);
 			}
 
 			@Override void generatePieces(World world) {
@@ -98,7 +100,6 @@ public class LevelFactory {
 				
 				// Sometimes add stairs to the underground lake / forest
 				int r = world.Rand.nextInt(4);
-				System.out.println("generating door: " + r + " lake: " + GeneratedLevels.contains("Underground Lake") + ", forest: " + GeneratedLevels.contains("Underground Forest"));
 				if (r == 0 && !GeneratedLevels.contains("Underground Lake")) {
 					
 					do {
@@ -106,7 +107,6 @@ public class LevelFactory {
 						y = world.Rand.nextInt(world.Height / 2) + world.Height / 4;
 					} while(!world.getTile(x, y).IsWalkable);
 					
-					System.out.println("Tiles are " + Tile.stairs(levelByName("Underground Lake").Stairs) + " at " + x + "/" + y);
 					world.Tiles[x][y] = Tile.stairs(levelByName("Underground Lake").Stairs);
 					
 				} else if (r == 1 && !GeneratedLevels.contains("Underground Forest")) {
@@ -135,20 +135,105 @@ public class LevelFactory {
 		},
 		new Level("Underground Lake", "A wide open area with a lake in the center", Color.BLUE, 2, 12) {
 			@Override void generateLandscape(World world) {
-
+				// Add a solid border
+				for (int x = 0; x < world.Width; x++) {
+					world.Tiles[x][0] = Tile.WALL;
+					world.Tiles[x][world.Height - 1] = Tile.WALL;
+				}
+				for (int y = 0; y < world.Height; y++) {
+					world.Tiles[0][y] = Tile.WALL;
+					world.Tiles[world.Width - 1][y] = Tile.WALL;
+				}
+				
+				// Add some water in the center
+				for (int x = world.Width / 2 - 1; x <= world.Width / 2 + 1; x++)
+					for (int y = world.Height / 2 - 1; y <= world.Height / 2 + 1; y++)
+						world.Tiles[x][y] = Tile.WATER;
+				
+				// Smooth outwards
+				// I've never used a labeled continue before! :)
+				int toAdd = (world.Width * world.Height - 2 * (world.Width + world.Height) + 5) / 3; 
+				smooth: for (int i = 0; i < toAdd; i++) {
+					// Generate a location
+					int x = world.Rand.nextInt(world.Width);
+					int y = world.Rand.nextInt(world.Height);
+					
+					// If it's not already empty, skip it
+					if (!world.getTile(x, y).equals(Tile.FLOOR)) {
+						i--;
+						continue;
+					}
+					
+					// If we're bordering wall or water, expand it
+					for (Tile t : world.neighbors4(x, y)) {
+						if (t.equals(Tile.WATER)) {
+							world.Tiles[x][y] = Tile.WATER;
+							continue smooth;
+						} else if (t.equals(Tile.WALL)) {
+							world.Tiles[x][y] = Tile.WALL;
+							continue smooth;
+						}
+					}
+					
+					// If we made it here, we didn't actually expand something
+					i--;
+					continue;
+				}
+				
+				// Place a random stairway downwards.
+				int x = world.Rand.nextInt(world.Width / 2) + world.Width / 2;
+				int y = world.Rand.nextInt(world.Height / 2) + world.Height / 4;
+				world.Tiles[x][y] = Tile.stairs(Color.WHITE);
 			}
 
 			@Override void generatePieces(World world) {
-
+				Rectangle enemyBounds = new Rectangle(world.Width / 4, 0, 3 * world.Width / 4, world.Height);
+				
+				for (int i = 0; i < 4; i++) {
+					placeRandomly(world, new Pawn(world, 1), enemyBounds);
+					// TODO: Add 4 grasshoppers
+				}
 			}
 		}, 
 		new Level("Underground Forest", "Towering mushrooms with a feel of magic in the area", Color.GREEN, 2, 12) {
 			@Override void generateLandscape(World world) {
-
+				// Mostly empty space, but spread some trees and grass about.
+				for (int x = 0; x < world.Width; x++) {
+					for (int y = 0; y < world.Height; y++) {
+						switch (world.Rand.nextInt(10)) {
+						case 0:
+							world.Tiles[x][y] = Tile.MUSHROOM;
+							break;
+						case 1:
+							world.Tiles[x][y] = Tile.GRASS_1;
+							break;
+						case 2:
+							world.Tiles[x][y] = Tile.GRASS_2;
+							break;
+						case 3:
+							world.Tiles[x][y] = Tile.MUD_1;
+							break;
+						case 4:
+							world.Tiles[x][y] = Tile.MUD_2;
+							break;
+						default:
+							world.Tiles[x][y] = Tile.FLOOR;
+							break;
+						}
+					}
+				}
+				
+				// Place a random stairway downwards.
+				int x = world.Rand.nextInt(world.Width / 2) + world.Width / 2;
+				int y = world.Rand.nextInt(world.Height / 2) + world.Height / 4;
+				world.Tiles[x][y] = Tile.stairs(Color.WHITE);
 			}
 
 			@Override void generatePieces(World world) {
-
+				Rectangle enemyBounds = new Rectangle(world.Width / 4, 0, 3 * world.Width / 4, world.Height);
+				placeRandomly(world, new Knight(world, 1), enemyBounds);
+				placeRandomly(world, new Knight(world, 1), enemyBounds);
+				// TODO: Add 1 Unicorn
 			}
 		},
 		// Second tier
@@ -273,7 +358,10 @@ public class LevelFactory {
 		Level level = null;
 		for (int i = 0; i < Levels.length; i++) {
 			level = Levels[i];
-			if ((level.Stairs == null || level.Stairs.equals(stairs)) && level.Lowest <= depth && level.Highest >= depth)
+				
+			if ((stairs == null || level.Stairs == null || level.Stairs.equals(stairs)) 
+					&& level.Lowest <= depth 
+					&& level.Highest >= depth)
 				break;
 		}
 		
