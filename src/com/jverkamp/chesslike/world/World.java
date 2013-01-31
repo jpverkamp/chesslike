@@ -41,6 +41,9 @@ public class World {
 		Width = width;
 		Height = height;
 		Tiles = new Tile[Width][Height];
+		for (int x = 0; x < Width; x++)
+			for (int y = 0; y < Height; y++)
+				Tiles[x][y] = Tile.FLOOR;
 		
 		Actors = new ArrayList<Actor>();
 		Log = new ArrayList<String>();
@@ -224,8 +227,11 @@ public class World {
 		if (View.width != region.width || View.height != region.height)
 			throw new IllegalArgumentException("Region size doesn't match view size");
 		
-		// Reset the view area.
+		// Make sure the current move and active actor are set.
+		if (ActiveActor == null) ActiveActor = Actors.get(0);
+		if (CurrentMove == null) CurrentMove = new Point(ActiveActor.Location.x, ActiveActor.Location.y);
 		
+		// TODO: Reset the view area.
 		
 		// Draw tiles
 		for (int xi = 0; xi < View.width; xi++) {

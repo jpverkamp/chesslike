@@ -5,7 +5,6 @@ import java.awt.Point;
 import java.util.*;
 
 import com.jverkamp.chesslike.Glyph;
-import com.jverkamp.chesslike.tile.Tile;
 import com.jverkamp.chesslike.world.World;
 
 /**
@@ -39,7 +38,7 @@ public abstract class Actor {
 		do {
 			Location.x = World.Rand.nextInt(World.Height);
 			Location.y = World.Rand.nextInt(World.Width);
-		} while(!World.getTile(Location.x, Location.y).equals(Tile.FLOOR));
+		} while(!World.getTile(Location.x, Location.y).IsWalkable);
 	}
 	
 	/**

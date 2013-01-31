@@ -2,9 +2,10 @@ package com.jverkamp.chesslike.screen;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.*;
 
-import com.jverkamp.chesslike.world.LandscapeFactory;
-import com.jverkamp.chesslike.world.PiecesFactory;
+import com.jverkamp.chesslike.actor.*;
+import com.jverkamp.chesslike.world.*;
 
 import trystans.asciiPanel.AsciiPanel;
 
@@ -31,90 +32,114 @@ public class MainMenuScreen extends Screen {
 	 */
 	@Override
 	protected Screen input(KeyEvent event) {
-		int code = event.getKeyCode();
 		
-		// Display the first layer of menu.
-		if (CurrentMode == Mode.FirstMenu) {
-			switch(code) {
-			
-			case KeyEvent.VK_ENTER:
-				CurrentMode = Mode.ChooseLandscape;
-				return this;
-				
-			case KeyEvent.VK_ESCAPE:
-				System.exit(0);
-			}
-		}
+		if (event.getKeyCode() == KeyEvent.VK_ESCAPE)
+			return null;
 		
-		// Choose a landscape
-		else if (CurrentMode == Mode.ChooseLandscape) {
-			switch(code) {
-			
-			case KeyEvent.VK_W:
-			case KeyEvent.VK_UP:
-			case KeyEvent.VK_NUMPAD8:
-				MenuOption -= 1;
-				break;
-				
-			case KeyEvent.VK_S:
-			case KeyEvent.VK_DOWN:
-			case KeyEvent.VK_NUMPAD2:
-				MenuOption += 1;
-				break;
-
-			case KeyEvent.VK_ENTER:
-			case KeyEvent.VK_SPACE:
-				SelectedLandscape = LandscapeFactory.Names[MenuOption][0];
-				MenuOption = 0;
-				CurrentMode = Mode.ChoosePieces;
-				break;
-				
-			case KeyEvent.VK_ESCAPE:
-				MenuOption = 0;
-				CurrentMode = Mode.FirstMenu;
-				break;
-				
-			}
-			
-			if (MenuOption < 0) MenuOption += LandscapeFactory.Names.length;
-			if (MenuOption >= LandscapeFactory.Names.length) MenuOption = 0;
-		}
+		World err = new World(58, 18);
+		err.setViewSize(58, 18);
 		
-		// Choose pieces
-		else if (CurrentMode == Mode.ChoosePieces) {
-			switch(code) {
-			
-			case KeyEvent.VK_W:
-			case KeyEvent.VK_UP:
-			case KeyEvent.VK_NUMPAD8:
-				MenuOption -= 1;
-				break;
-				
-			case KeyEvent.VK_S:
-			case KeyEvent.VK_DOWN:
-			case KeyEvent.VK_NUMPAD2:
-				MenuOption += 1;
-				break;
-	
-			case KeyEvent.VK_ENTER:
-			case KeyEvent.VK_SPACE:
-				SelectedPieces = PiecesFactory.Names[MenuOption][0];
-				MenuOption = 0;
-				return new WorldScreen(SelectedLandscape, SelectedPieces);
-				
-			case KeyEvent.VK_ESCAPE:
-				MenuOption = 0;
-				CurrentMode = Mode.ChooseLandscape;
-				break;
-				
-			}
-			
-			if (MenuOption < 0) MenuOption += PiecesFactory.Names.length;
-			if (MenuOption >= PiecesFactory.Names.length) MenuOption = 0;
-		}
+		List<Actor> valiants = new ArrayList<Actor>();
+		valiants.add(new King(err, 0));
 		
-		// Otherwise, no change.
-		return this;
+		LevelFactory.run(err, valiants, null, -1);
+		
+		return new WorldScreen(err);
+		
+//		int code = event.getKeyCode();
+//		
+//		// Display the first layer of menu.
+//		if (CurrentMode == Mode.FirstMenu) {
+//			switch(code) {
+//			
+//			case KeyEvent.VK_ENTER:
+//				CurrentMode = Mode.ChooseLandscape;
+//				return this;
+//				
+//			case KeyEvent.VK_ESCAPE:
+//				System.exit(0);
+//			}
+//		}
+//		
+//		// Choose a landscape
+//		else if (CurrentMode == Mode.ChooseLandscape) {
+//			switch(code) {
+//			
+//			case KeyEvent.VK_W:
+//			case KeyEvent.VK_UP:
+//			case KeyEvent.VK_NUMPAD8:
+//				MenuOption -= 1;
+//				break;
+//				
+//			case KeyEvent.VK_S:
+//			case KeyEvent.VK_DOWN:
+//			case KeyEvent.VK_NUMPAD2:
+//				MenuOption += 1;
+//				break;
+//
+//			case KeyEvent.VK_ENTER:
+//			case KeyEvent.VK_SPACE:
+//				SelectedLandscape = LandscapeFactory.Names[MenuOption][0];
+//				MenuOption = 0;
+//				CurrentMode = Mode.ChoosePieces;
+//				break;
+//				
+//			case KeyEvent.VK_ESCAPE:
+//				MenuOption = 0;
+//				CurrentMode = Mode.FirstMenu;
+//				break;
+//				
+//			}
+//			
+//			if (MenuOption < 0) MenuOption += LandscapeFactory.Names.length;
+//			if (MenuOption >= LandscapeFactory.Names.length) MenuOption = 0;
+//		}
+//		
+//		// Choose pieces
+//		else if (CurrentMode == Mode.ChoosePieces) {
+//			switch(code) {
+//			
+//			case KeyEvent.VK_W:
+//			case KeyEvent.VK_UP:
+//			case KeyEvent.VK_NUMPAD8:
+//				MenuOption -= 1;
+//				break;
+//				
+//			case KeyEvent.VK_S:
+//			case KeyEvent.VK_DOWN:
+//			case KeyEvent.VK_NUMPAD2:
+//				MenuOption += 1;
+//				break;
+//	
+//			case KeyEvent.VK_ENTER:
+//			case KeyEvent.VK_SPACE:
+//				SelectedPieces = PiecesFactory.Names[MenuOption][0];
+//				MenuOption = 0;
+//				
+//				World err = new World(58, 18);
+//				err.setViewSize(58, 18);
+//				
+//				List<Actor> valiants = new ArrayList<Actor>();
+//				valiants.add(new King(err, 0));
+//				
+//				LevelFactory.run(err, valiants, null, -1);
+//				
+//				return new WorldScreen(err);
+//				return new WorldScreen(SelectedLandscape, SelectedPieces);
+//				
+//			case KeyEvent.VK_ESCAPE:
+//				MenuOption = 0;
+//				CurrentMode = Mode.ChooseLandscape;
+//				break;
+//				
+//			}
+//			
+//			if (MenuOption < 0) MenuOption += PiecesFactory.Names.length;
+//			if (MenuOption >= PiecesFactory.Names.length) MenuOption = 0;
+//		}
+//		
+//		// Otherwise, no change.
+//		return this;
 	}
 	
 	/**
