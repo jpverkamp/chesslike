@@ -10,9 +10,7 @@ import trystans.asciiPanel.AsciiPanel;
 
 import com.jverkamp.chesslike.actor.Actor;
 import com.jverkamp.chesslike.actor.King;
-import com.jverkamp.chesslike.world.LandscapeFactory;
 import com.jverkamp.chesslike.world.LevelFactory;
-import com.jverkamp.chesslike.world.PiecesFactory;
 import com.jverkamp.chesslike.world.World;
 
 public class WorldScreen extends Screen {
@@ -26,21 +24,6 @@ public class WorldScreen extends Screen {
 	 */
 	public WorldScreen(World world) {
 		World = world;
-	}
-	
-	/**
-	 * Create a new world screen with a given set of generators.
-	 * @param landscape The landscape to generate.
-	 * @param pieces The pieces to generate.
-	 */
-	public WorldScreen(String landscape, String pieces) {
-		this(null);
-		
-		World = new World(58, 18);
-		World.setViewSize(58, 18);
-		
-		LandscapeFactory.run(World, landscape);
-		PiecesFactory.run(World, pieces);
 	}
 	
 	/**
@@ -81,7 +64,9 @@ public class WorldScreen extends Screen {
 		}
 		
 		// Check for stairway
-		else if (stairColor != null) { 
+		else if (stairColor != null) {
+			System.out.println("Descending a stair of color " + stairColor);
+			
 			return new WorldIntroScreen(new WorldScreen(stairColor, CurrentDepth + 1));
 		}
 		
