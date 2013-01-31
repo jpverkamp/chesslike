@@ -1,16 +1,24 @@
 package com.jverkamp.chesslike.screen;
 
+import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import trystans.asciiPanel.AsciiPanel;
 
+import com.jverkamp.chesslike.actor.Actor;
+import com.jverkamp.chesslike.actor.King;
 import com.jverkamp.chesslike.world.LandscapeFactory;
+import com.jverkamp.chesslike.world.LevelFactory;
 import com.jverkamp.chesslike.world.PiecesFactory;
 import com.jverkamp.chesslike.world.World;
 
 public class WorldScreen extends Screen {
 	World World;
+	boolean VictoryMessage;
+	int CurrentDepth;
 
 	/**
 	 * Create a new world screen.
@@ -34,6 +42,23 @@ public class WorldScreen extends Screen {
 		LandscapeFactory.run(World, landscape);
 		PiecesFactory.run(World, pieces);
 	}
+	
+	/**
+	 * Create a new world screen descending on a given color of stairs and a certain level.
+	 * @param stairs The stairs we used to get here.
+	 * @param depth The depth we are at.
+	 */
+	public WorldScreen(Color stairs, int depth) {
+		World = new World(58, 18);
+		World.setViewSize(58, 18);
+		
+		CurrentDepth = depth;
+		
+		List<Actor> valiants = new ArrayList<Actor>();
+		valiants.add(new King(World, 0));
+		
+		LevelFactory.run(World, valiants, Color.WHITE, depth);
+	}
 
 	/**
 	 * Handle input.
@@ -42,15 +67,28 @@ public class WorldScreen extends Screen {
 	@Override
 	protected Screen input(KeyEvent event) {
 		World.input(event);
+		Color stairColor = World.playerDescends();
 		
-		// Check to 
-		if (World.playerWins()) {
-			return new GameOverScreen(true);
-		} else if (World.playerLoses()) {
+		// Check if the player has gotten rid of all opponents
+		if (World.playerWins() && !VictoryMessage) {
+			VictoryMessage = true;
+			return new MessageScreen(this, "You've eliminated all enemies.\nContinue to the stairs for a reward.");
+		}
+		
+		// Check for a loss condition.
+		else if (World.playerLoses()) {
 			return new GameOverScreen(false);
 		}
 		
-		return this;
+		// Check for stairway
+		else if (stairColor != null) { 
+			return new WorldIntroScreen(new WorldScreen(stairColor, CurrentDepth + 1));
+		}
+		
+		// Otherwise, just keep on going
+		else {
+			return this;
+		}
 	}
 
 	/**
