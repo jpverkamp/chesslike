@@ -30,6 +30,10 @@ public class Tile {
 	public static final Tile FORGE = new Tile((char) 209, new Color(183, 65, 14) /* RUST */);
 	public static final Tile LAVA = new Tile((char) 178, Color.RED);
 	
+	// Stairs down to the next level.
+	// The color will change depending on which level we're going down to.
+	public static final Tile STAIRS = new Tile('>', Color.WHITE);
+	
 	// Set static properties.
 	static {
 		FLOOR.IsWalkable = true;
@@ -37,6 +41,7 @@ public class Tile {
 		GRASS_2.IsWalkable = true;
 		PEW.IsWalkable = true;
 		THRONE.IsWalkable = true;
+		STAIRS.IsWalkable = true;
 	}
 	
 	/**
@@ -54,5 +59,16 @@ public class Tile {
 	@Override
 	public boolean equals(Object obj) {
 		return obj instanceof Tile && (((Tile) obj).Glyph.equals(Glyph));
+	}
+
+	/**
+	 * Create stairs.
+	 * @param color The color to create
+	 * @return The stairs
+	 */
+	public static Tile stairs(Color color) {
+		Tile tile = new Tile('>', color);
+		tile.IsWalkable = true;
+		return tile;
 	}
 }

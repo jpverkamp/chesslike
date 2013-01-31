@@ -13,6 +13,8 @@ import com.jverkamp.chesslike.tile.Tile;
 
 public class World {
 	public Random Rand = new Random();
+	public String Title;
+	public String Description;
 	
 	// The actual world contents
 	public int Width, Height;
@@ -289,14 +291,26 @@ public class World {
 	}
 
 	/**
-	 * Check if the player loses (no player's pieces).
+	 * Check if the player loses (the player has no King).
 	 * @return If the player loses.
 	 */
 	public boolean playerLoses() {
 		for (Actor a : Actors) 
-			if (a.Team == 0)
+			if (a.Team == 0 && a.Glyph.Character == 'K')
 				return false;
 		
 		return true;
+	}
+
+	/**
+	 * Check if the player's King is on the stairway.
+	 * @return The stairway color if there's a player king on stairs, otherwise null.
+	 */
+	public Color playerDescends() {
+		for (Actor a : Actors) 
+			if (a.Team == 0 && a.Glyph.Character == 'K' && getTile(a.Location.x, a.Location.y).Glyph.Character == '>')
+				return getTile(a.Location.x, a.Location.y).Glyph.Color;
+		
+		return null;
 	}
 }
