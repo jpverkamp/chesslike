@@ -122,8 +122,8 @@ public abstract class Actor {
 		List<int[]> moves = new ArrayList<int[]>();
 		List<int[]> captures = new ArrayList<int[]>();
 		
-		for (int x = 0; x < World.Height; x++) {
-			for (int y = 0; y < World.Width; y++) {
+		for (int x = 0; x < World.Width; x++) {
+			for (int y = 0; y < World.Height; y++) {
 				if (x == Location.x && y == Location.y)
 					continue;
 				
