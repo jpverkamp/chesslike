@@ -427,22 +427,34 @@ public class LevelFactory {
 		// Final tier
 		new LevelFromFile("ThroneRoom.txt", "Throne Room", "The seat of power of this underground civilization (literally)", Color.WHITE, 13, 13) {
 			@Override void generatePieces(World world) {
-				Rectangle enemyBounds = new Rectangle(world.Width / 4, 0, 3 * world.Width / 4, world.Height);
+				place(world, new Pawn(world, 1), 44, 5);
+				place(world, new Pawn(world, 1), 43, 6);
+				place(world, new Pawn(world, 1), 43, 7);
+				place(world, new Pawn(world, 1), 43, 8);
+				place(world, new Pawn(world, 1), 43, 9);
+				place(world, new Pawn(world, 1), 43, 10);
+				place(world, new Pawn(world, 1), 43, 11);
+				place(world, new Pawn(world, 1), 44, 12);
 				
-				for (int i = 0; i < 8; i++)
-					placeRandomly(world, new Pawn(world, 1), enemyBounds);
+				place(world, new Bishop(world, 1), 46, 6);
+				place(world, new Bishop(world, 1), 46, 11);
 				
-				for (int i = 0; i < 2; i++) {
-					placeRandomly(world, new Bishop(world, 1), enemyBounds);
-					placeRandomly(world, new Knight(world, 1), enemyBounds);
-					placeRandomly(world, new Rook(world, 1), enemyBounds);
-				}
+				place(world, new Knight(world, 1), 47, 4);
+				place(world, new Knight(world, 1), 47, 13);
 				
-				// TODO: Place the king and queen right on the thrones instead
-				placeRandomly(world, new Queen(world, 1), enemyBounds);
-				placeRandomly(world, new King(world, 1), enemyBounds);
+				place(world, new Rook(world, 1), 49, 4);
+				place(world, new Rook(world, 1), 49, 13);
+				
+				place(world, new Queen(world, 1), 48, 8);
+				place(world, new King(world, 1), 48, 9);
 			}	
 			
+			private void place(World world, Actor piece, int x, int y) {
+				world.Actors.add(piece);
+				piece.Location.x = x;
+				piece.Location.y = y;
+			}
+
 			@Override List<Actor> getBonus() {
 				return null;
 			}
