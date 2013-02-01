@@ -37,6 +37,8 @@ public class WorldScreen extends Screen {
 		
 		List<Actor> valiants = new ArrayList<Actor>();
 		valiants.add(new King(World, 0));
+		valiants.add(new Marshall(World, 0));
+		valiants.add(new Archbishop(World, 0));
 		
 		LevelFactory.run(World, valiants, stairs, depth);
 	}
