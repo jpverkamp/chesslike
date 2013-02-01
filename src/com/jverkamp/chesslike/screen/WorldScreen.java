@@ -49,7 +49,15 @@ public class WorldScreen extends Screen {
 	 */
 	@Override
 	protected Screen input(KeyEvent event) {
+		// Check for help screen
+		if (event.getKeyCode() == KeyEvent.VK_F1)
+			return new HelpScreen(this);
+		
+		// Pass through to the world
 		World.input(event);
+		
+		// Check if we'll be descending
+		// This will return either a color or null if we can't
 		Color stairColor = World.playerDescends();
 		
 		// Check if the player has gotten rid of all opponents
@@ -75,7 +83,10 @@ public class WorldScreen extends Screen {
 	}
 
 	/**
-	 * Draw the world screen.
+	 * Draw the world scre		int maxWidth = terminal.getWidthInCharacters();
+		int maxHeight = terminal.getHeightInCharacters();
+		
+en.
 	 * @param terminal The panel to draw to.
 	 */
 	@Override
@@ -85,28 +96,7 @@ public class WorldScreen extends Screen {
 		
 		// Help functions
 		String[] lines = new String[]{
-				"Pieces",
-				"------",
-				"p - Pawn",
-				"b - Bishop",
-				"k - Knight",
-				"r - Rook",
-				"g - Grasshopper",
-				"s - Squirrel",
-				"U - Unicorn",
-				"A - Archbishop",
-				"M - Marshall",
-				"Q - Queen",
-				"K - King",
-				"",
-				"Capture all of the",
-				"enemy pieces to",
-				"win.",
-				"",
-				"Use WASD, arrows,",
-				"or numpad to",
-				"select and ENTER/",
-				"SPACE to move.",
+				"Press F1 for help",
 				"",
 				"Good luck!"
 		};

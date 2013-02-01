@@ -1,0 +1,23 @@
+
+ --- Pieces ---
+ p Pawn         Moves one square orthogonally, attacks diagonally
+ r Rook         Moves any number of squares orthogonally
+ k Knight       Jumps over pieces, moves two one way and one the other
+ b Bishop       Moves any number of squares diagonally
+ s Squirrel     Jumps to any square within two
+ U Unicorn      Moves as a repeating Knight
+ A Archbishop   Moves as either a Bishop or a Knight
+ M Marshall     Moves as either a Rook or a Knight
+ Q Queen        Moves any number of squares in any straight line
+ K King         Moves one square in any direction
+ 
+ --- Controls ---
+ WASD / Arrows / Numpad to select
+ Enter / Space to move
+ 
+ --- Rules ---
+ Move to the stairs on each level to continue downwards
+ Capture all enemy pieces on a level to gain a new recruit of your own
+ 
+ 
+ Good luck! Press any key to return to the game
