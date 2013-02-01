@@ -33,10 +33,10 @@ public class Bishop extends Actor {
 		// Check the path.
 		int xd = x > Location.x ? 1 : -1;
 		int yd = y > Location.y ? 1 : -1;
-		for (int xi = Location.x, yi = Location.y; xi != x && yi != y; xi += xd, yi += yd) {
+		for (int xi = Location.x + xd, yi = Location.y + yd; xi != x && yi != y; xi += xd, yi += yd) {
 			Tile t = World.getTile(xi, yi);
 			Actor a = World.getActorAt(xi, yi);
-			if (!t.IsWalkable || (a != this && a != null))
+			if (!t.IsWalkable || a != null)
 				return false;
 		}
 		
@@ -63,13 +63,13 @@ public class Bishop extends Actor {
 		// Check the path.
 		int xd = x > Location.x ? 1 : -1;
 		int yd = y > Location.y ? 1 : -1;
-		for (int xi = Location.x, yi = Location.y; xi != x && yi != y; xi += xd, yi += yd) {
+		for (int xi = Location.x + xd, yi = Location.y + yd; xi != x && yi != y; xi += xd, yi += yd) {
 			if (xi == x && yi == y)
 				continue;
 			
 			Tile t = World.getTile(xi, yi);
 			Actor a = World.getActorAt(xi, yi);
-			if (!t.IsWalkable || (a != this && a != null))
+			if (!t.IsWalkable || a != null)
 				return false;
 		}
 		

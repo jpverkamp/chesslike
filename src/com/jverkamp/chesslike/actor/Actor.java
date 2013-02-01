@@ -11,8 +11,7 @@ import com.jverkamp.chesslike.world.World;
  * Anything that can move about and potentially respond to user input.
  */
 public abstract class Actor {
-	World World;
-	
+	public World World;
 	public Point Location;
 	public Glyph Glyph;
 	

@@ -31,21 +31,14 @@ public class Rook extends Actor {
 			return true;
 		
 		// Check the path.
-		if (x == Location.x) {
-			for (int yi = Math.min(y, Location.y); yi <= Math.max(y, Location.y); yi++) {
-				Tile t = World.getTile(x, yi);
-				Actor a = World.getActorAt(x, yi);
-				if (!t.IsWalkable || (a != this && a != null))
-					return false;
-			}
-		} else {
-			for (int xi = Math.min(x, Location.x); xi <= Math.max(x, Location.x); xi++) {
-				Tile t = World.getTile(xi, y);
-				Actor a = World.getActorAt(xi, y);
-				if (!t.IsWalkable || (a != this && a != null))
-					return false;
-			}
-		} 
+		int xd = x == Location.x ? 0 : x > Location.x ? 1 : -1;
+		int yd = y == Location.y ? 0 : y > Location.y ? 1 : -1;
+		for (int xi = Location.x + xd, yi = Location.y + yd; !(xi == x && yi == y); xi += xd, yi += yd) {
+			Tile t = World.getTile(xi, yi);
+			Actor a = World.getActorAt(xi, yi);
+			if (!t.IsWalkable || a != null)
+				return false;
+		}
 		
 		return true;
 	}
@@ -73,21 +66,17 @@ public class Rook extends Actor {
 			return true;
 		
 		// Check the path.
-		if (x == Location.x) {
-			for (int yi = Math.min(y, Location.y) + 1; yi < Math.max(y, Location.y); yi++) {
-				Tile t = World.getTile(x, yi);
-				Actor a = World.getActorAt(x, yi);
-				if (!t.IsWalkable || (a != this && a != null))
-					return false;
-			}
-		} else {
-			for (int xi = Math.min(x, Location.x) + 1; xi < Math.max(x, Location.x); xi++) {
-				Tile t = World.getTile(xi, y);
-				Actor a = World.getActorAt(xi, y);
-				if (!t.IsWalkable || (a != this && a != null))
-					return false;
-			}
-		} 
+		int xd = x == Location.x ? 0 : x > Location.x ? 1 : -1;
+		int yd = y == Location.y ? 0 : y > Location.y ? 1 : -1;
+		for (int xi = Location.x + xd, yi = Location.y + yd; !(xi == x && yi == y); xi += xd, yi += yd) {
+			if (xi == x && yi == y)
+				continue;
+			
+			Tile t = World.getTile(xi, yi);
+			Actor a = World.getActorAt(xi, yi);
+			if (!t.IsWalkable || a != null)
+				return false;
+		}
 		
 		return true;
 	}
