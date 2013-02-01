@@ -48,10 +48,6 @@ public class WorldScreen extends Screen {
 	 */
 	@Override
 	protected Screen input(KeyEvent event) {
-		// Check for help screen
-		if (event.getKeyCode() == KeyEvent.VK_F1)
-			return new HelpScreen(this);
-		
 		// Pass through to the world
 		World.input(event);
 		
@@ -108,7 +104,9 @@ public class WorldScreen extends Screen {
 		
 		// Help functions
 		String[] lines = new String[]{
+				"",
 				"Press F1 for help",
+				"Press F2 for stats",
 				"",
 				"Good luck!"
 		};

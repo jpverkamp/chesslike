@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.util.*;
 
 import com.jverkamp.chesslike.Glyph;
+import com.jverkamp.chesslike.Statistics;
 import com.jverkamp.chesslike.Util;
 import com.jverkamp.chesslike.world.World;
 
@@ -35,10 +36,6 @@ public abstract class Actor {
 		Team = team;
 		
 		Location = new Point();
-//		do {
-//			Location.x = Util.Rand.nextInt(World.Height);
-//			Location.y = Util.Rand.nextInt(World.Width);
-//		} while(!World.getTile(Location.x, Location.y).IsWalkable);
 	}
 	
 	/**
@@ -86,10 +83,12 @@ public abstract class Actor {
 				Location.y = y;
 				
 				World.log(
-					(Team == 0 ? "Player" : "Computer " + Team) + "'s " + getClass().getSimpleName() + 
+					(Team == 0 ? "your " : "the computer's " + Team) + getClass().getSimpleName() + 
 					" captured " +
-					(a.Team == 0 ? "Player" : "Computer " + Team) + "'s " + a.getClass().getSimpleName()
+					(a.Team == 0 ? "the computer's " : "your " + Team) + a.getClass().getSimpleName()
 				);
+				
+				Statistics.recordCaptured(a.getClass().getSimpleName(), a.Team == 0);
 				
 				return true;
 			} else {
