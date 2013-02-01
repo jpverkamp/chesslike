@@ -31,6 +31,9 @@ public class Tile {
 	public static final Tile MUSHROOM = new Tile((char) 5, new Color(139, 69, 19) /* BROWN */);
 	public static final Tile FORGE = new Tile((char) 209, new Color(183, 65, 14) /* RUST */);
 	public static final Tile LAVA = new Tile((char) 178, Color.RED);
+	public static final Tile LAMP = new Tile((char) 244, new Color(255, 215, 0) /* GOLD */);
+	public static final Tile LEFT_ARROW = new Tile((char) 174, Color.DARK_GRAY);
+	public static final Tile RIGHT_ARROW = new Tile((char) 175, Color.DARK_GRAY);
 	
 	// Stairs down to the next level.
 	// The color will change depending on which level we're going down to.

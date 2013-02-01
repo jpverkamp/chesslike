@@ -257,7 +257,105 @@ public class LevelFactory {
 		// Second tier
 		new Level("Dungeon", "Artifical tunnels, descending ever further into the darkness", Color.WHITE, 6, 9) {
 			@Override void generateLandscape(World world) {
-
+				// Fill with rock first
+				for (int x = 0; x < world.Width; x++)
+					for (int y = 0; y < world.Height; y++)
+						world.Tiles[x][y] = Tile.WALL;
+				
+				// Carve some nice twisty caves.
+				int x = Util.Rand.nextInt(world.Width / 4);
+				int y = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
+				int targetx = Util.Rand.nextInt(world.Width / 4) + 3 * world.Width / 4;
+				int targety = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
+				
+				// Carve a few rooms
+				for (int i = 0; i < 4; i++) {
+					// Carve a room
+					for (int xi = x - 3; xi <= x + 3; xi++)
+						for (int yi = y - 3; yi <= y + 3; yi++)
+							if (!world.getTile(xi, yi).equals(Tile.VOID))
+								world.Tiles[xi][yi] = Tile.FLOOR;
+					
+					// Add some decorations
+					try {
+						switch(Util.Rand.nextInt(4)) {
+							case 0:
+								for (int xj = x - 1; xj <= x + 1; xj++)
+									for (int yj = y - 1; yj <= y + 1; yj++)
+										world.Tiles[xj][yj] = Tile.WATER;
+								break;
+							case 1:
+								world.Tiles[x + Util.Rand.nextInt(3) - 1][y + Util.Rand.nextInt(3) - 1] = Tile.MUSHROOM;
+								world.Tiles[x + Util.Rand.nextInt(3) - 1][y + Util.Rand.nextInt(3) - 1] = Tile.MUSHROOM;
+								break;
+								
+							case 2:
+								world.Tiles[x - 1][y] = Tile.LEFT_ARROW;
+								world.Tiles[x + 1][y] = Tile.RIGHT_ARROW;
+								break;
+								
+							case 3:
+								world.Tiles[x - 1][y] = Tile.LAMP;
+								world.Tiles[x][y] = Tile.THRONE;
+								world.Tiles[x + 1][y] = Tile.LAMP;
+								break;
+						}
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+					
+					do {
+						// Clear a chunk
+						for (int xi = x - 1; xi < x + 1; xi++)
+							for (int yi = y - 1; yi < y + 1; yi++)
+								if (world.getTile(xi, yi).equals(Tile.WALL))
+									world.Tiles[xi][yi] = Tile.FLOOR;
+						
+						// Wiggle towards the target
+						if (x != targetx)
+							x += (x > targetx ? -1 : 1);
+						else if (y != targety)
+							y += (y > targety ? -1 : 1);
+						
+					} while (x != targetx || y != targety);
+					
+					targetx = Util.Rand.nextInt(world.Width);
+					targety = Util.Rand.nextInt(world.Height);
+				}
+				
+				// Carve the last room
+				for (int xi = x - 3; xi <= x + 3; xi++)
+					for (int yi = y - 3; yi <= y + 3; yi++)
+						if (!world.getTile(xi, yi).equals(Tile.VOID))
+							world.Tiles[xi][yi] = Tile.FLOOR;
+				
+				// Add down stairs
+				do {
+					x = Util.Rand.nextInt(world.Width / 4) + 3 * world.Width / 4;
+					y = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
+				} while(!world.getTile(x, y).IsWalkable);
+				world.Tiles[x][y] = Tile.stairs(Color.WHITE);
+				
+				// Sometimes add stairs to the underground lake / forest
+				int r = Util.Rand.nextInt(4);
+				if (r == 0 && !GeneratedLevels.contains("Underground Lake")) {
+					
+					do {
+						x = Util.Rand.nextInt(world.Width / 4) + 3 * world.Width / 4;
+						y = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
+					} while(!world.getTile(x, y).IsWalkable);
+					
+					world.Tiles[x][y] = Tile.stairs(levelByName("Underground Lake").Stairs);
+					
+				} else if (r == 1 && !GeneratedLevels.contains("Underground Forest")) {
+					
+					do {
+						x = Util.Rand.nextInt(world.Width / 4) + 3 * world.Width / 4;
+						y = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
+					} while(!world.getTile(x, y).IsWalkable);
+					
+					world.Tiles[x][y] = Tile.stairs(levelByName("Underground Forest").Stairs);
+				}
 			}
 
 			@Override void generatePieces(World world) {
