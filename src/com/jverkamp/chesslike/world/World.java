@@ -8,6 +8,7 @@ import java.util.*;
 
 import trystans.asciiPanel.AsciiPanel;
 
+import com.jverkamp.chesslike.Statistics;
 import com.jverkamp.chesslike.Util;
 import com.jverkamp.chesslike.actor.*;
 import com.jverkamp.chesslike.tile.Tile;
@@ -234,6 +235,7 @@ public class World {
 			i = 0;
 			Round += 1;
 			log("Round " + Round);
+			Statistics.recordRound();
 		}
 		ActiveActor = Actors.get(i);
 		
@@ -268,8 +270,6 @@ public class World {
 		if (CurrentMove == null) CurrentMove = new Point(ActiveActor.Location.x, ActiveActor.Location.y);
 		
 		// TODO: Reset the view area.
-		
-
 		
 		// Draw tiles
 		for (int xi = 0; xi < View.width; xi++) {

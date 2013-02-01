@@ -2,6 +2,8 @@ package com.jverkamp.chesslike.screen;
 
 import java.awt.event.KeyEvent;
 
+import com.jverkamp.chesslike.Statistics;
+
 import trystans.asciiPanel.AsciiPanel;
 
 public class GameOverScreen extends Screen {
@@ -13,6 +15,7 @@ public class GameOverScreen extends Screen {
 	 */
 	public GameOverScreen(boolean isWinner) {
 		Won = isWinner;
+		Statistics.recordGameOver(Won);
 	}
 
 	/**

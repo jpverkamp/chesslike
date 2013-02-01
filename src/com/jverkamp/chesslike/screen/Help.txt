@@ -1,4 +1,3 @@
-
  --- Pieces ---
  p  Pawn        Moves one square orthogonally, attacks diagonally
  r  Rook        Moves any number of squares orthogonally
@@ -14,10 +13,12 @@
  --- Controls ---
  WASD / Arrows / Numpad to select
  Enter / Space to move
+ F1 for help, F2 for statistics
  
  --- Rules ---
  Move to the stairs on each level to continue downwards
  Capture all enemy pieces on a level to gain a new recruit of your own
- If you lose your King you lose the game
+ If you lose your King you lose the game, capture the computer King to win
  
- Good luck! Press any key to return to the game
+ Good luck! Press any key to return to the game.
+ 

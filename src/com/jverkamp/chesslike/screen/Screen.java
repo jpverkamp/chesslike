@@ -48,7 +48,12 @@ public abstract class Screen {
 	 * Respond to user input
 	 * @param The event to respond to.
 	 */
-	public final Screen doInput(KeyEvent event) {		
+	public final Screen doInput(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.VK_F1)
+			return new HelpScreen(this);
+		else if (event.getKeyCode() == KeyEvent.VK_F2)
+			return new StatScreen(this);
+			
 		if (Recur && Parent != null)
 			Parent = Parent.doInput(event);
 		

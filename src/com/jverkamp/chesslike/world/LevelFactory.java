@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.*;
 
+import com.jverkamp.chesslike.Statistics;
 import com.jverkamp.chesslike.Util;
 import com.jverkamp.chesslike.actor.*;
 import com.jverkamp.chesslike.tile.Tile;
@@ -524,6 +525,8 @@ public class LevelFactory {
 		world.Title = level.Name;
 		world.Description = level.Description;
 		world.Bonus = level.getBonus();
+		
+		Statistics.recordLevel(level.Name);
 		
 		// Generate the landscape
 		level.generateLandscape(world);
