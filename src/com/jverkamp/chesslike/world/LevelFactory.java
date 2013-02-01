@@ -428,25 +428,25 @@ public class LevelFactory {
 		// Final tier
 		new LevelFromFile("ThroneRoom.txt", "Throne Room", "The seat of power of this underground civilization (literally)", Color.WHITE, 10, 10) {
 			@Override void generatePieces(World world) {
-//				place(world, new Pawn(world, 1), 44, 5);
-//				place(world, new Pawn(world, 1), 43, 6);
-//				place(world, new Pawn(world, 1), 43, 7);
-//				place(world, new Pawn(world, 1), 43, 8);
-//				place(world, new Pawn(world, 1), 43, 9);
-//				place(world, new Pawn(world, 1), 43, 10);
-//				place(world, new Pawn(world, 1), 43, 11);
-//				place(world, new Pawn(world, 1), 44, 12);
-//				
-//				place(world, new Bishop(world, 1), 46, 6);
-//				place(world, new Bishop(world, 1), 46, 11);
-//				
-//				place(world, new Knight(world, 1), 47, 4);
-//				place(world, new Knight(world, 1), 47, 13);
-//				
-//				place(world, new Rook(world, 1), 49, 4);
-//				place(world, new Rook(world, 1), 49, 13);
-//				
-//				place(world, new Queen(world, 1), 48, 8);
+				place(world, new Pawn(world, 1), 44, 5);
+				place(world, new Pawn(world, 1), 43, 6);
+				place(world, new Pawn(world, 1), 43, 7);
+				place(world, new Pawn(world, 1), 43, 8);
+				place(world, new Pawn(world, 1), 43, 9);
+				place(world, new Pawn(world, 1), 43, 10);
+				place(world, new Pawn(world, 1), 43, 11);
+				place(world, new Pawn(world, 1), 44, 12);
+				
+				place(world, new Bishop(world, 1), 46, 6);
+				place(world, new Bishop(world, 1), 46, 11);
+				
+				place(world, new Knight(world, 1), 47, 4);
+				place(world, new Knight(world, 1), 47, 13);
+				
+				place(world, new Rook(world, 1), 49, 4);
+				place(world, new Rook(world, 1), 49, 13);
+				
+				place(world, new Queen(world, 1), 48, 8);
 				place(world, new King(world, 1), 48, 9);
 			}	
 			
