@@ -33,8 +33,8 @@ public class MainMenuScreen extends Screen {
 //			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, Color.BLUE, 2)); // Underground Forest
 //			
 //			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, Color.WHITE, 6)); // Dungeon
-//			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, new Color(255, 215, 0) /* GOLD */, 7)); // Cathedral
-//			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, new Color(183, 65, 14) /* RUST */, 7)); // Foundry
+//			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, new Color(255, 215, 0) /* GOLD */, 6)); // Cathedral
+//			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, new Color(183, 65, 14) /* RUST */, 6)); // Foundry
 //			
 //			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, Color.WHITE, 10)); // Sunken City
 //			
