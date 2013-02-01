@@ -400,4 +400,17 @@ public class World {
 				army.add(a);
 		return army;
 	}
+
+	/**
+	 * Check if a world contains a King on the specific team.
+	 * @param team The team to look at
+	 * @return If there's a king
+	 */
+	public boolean containsKing(int team) {
+		for (Actor a : Actors)
+			if (a.Glyph.Character == 'K' && a.Team == team)
+				return true;
+		
+		return false;
+	}
 }

@@ -59,8 +59,13 @@ public class WorldScreen extends Screen {
 		// This will return either a color or null if we can't
 		Color stairColor = World.playerDescends();
 		
+		// Check for winning!
+		if (World.Title.equals("Throne Room") && !World.containsKing(1)) {
+			return new GameOverScreen(true);
+		}
+		
 		// Check if the player has gotten rid of all opponents
-		if (World.playerWins() && !VictoryMessage) {
+		else if (World.playerWins() && !VictoryMessage) {
 			VictoryMessage = true;
 			return new MessageScreen(this, "You've eliminated all enemies.\nContinue to the stairs for a reward.");
 		}
