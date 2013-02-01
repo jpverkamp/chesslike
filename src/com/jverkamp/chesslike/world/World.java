@@ -164,6 +164,9 @@ public class World {
 	public void input(KeyEvent event) {
 		int code = event.getKeyCode();
 		
+		// Fix for world not getting set in some actors
+		for (Actor a : Actors) a.World = this;
+		
 		// Actually execute a move.
 		if (code == KeyEvent.VK_ENTER || code == KeyEvent.VK_SPACE) {
 			// Do the move.
@@ -251,6 +254,9 @@ public class World {
 	public void draw(AsciiPanel terminal, Rectangle region) {
 		if (View.width != region.width || View.height != region.height)
 			throw new IllegalArgumentException("Region size doesn't match view size");
+		
+		// Fix for world not getting set in some actors
+		for (Actor a : Actors) a.World = this;
 		
 		// Make sure the current move and active actor are set.
 		if (ActiveActor == null) ActiveActor = Actors.get(0);
