@@ -30,6 +30,10 @@ public class Bishop extends Actor {
 		if (x == Location.x && y == Location.y)
 			return true;
 		
+		// Maximum range
+		if (Math.abs(x - Location.x) > 4 || Math.abs(y - Location.y) > 4)		
+			return false;
+		
 		// Check the path.
 		int xd = x > Location.x ? 1 : -1;
 		int yd = y > Location.y ? 1 : -1;
@@ -59,6 +63,10 @@ public class Bishop extends Actor {
 		// Self valid.
 		if (x == Location.x && y == Location.y)
 			return true;
+		
+		// Maximum range
+		if (Math.abs(x - Location.x) > 4 || Math.abs(y - Location.y) > 4)		
+			return false;
 		
 		// Check the path.
 		int xd = x > Location.x ? 1 : -1;

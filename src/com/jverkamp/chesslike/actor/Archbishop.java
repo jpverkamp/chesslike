@@ -27,8 +27,10 @@ public class Archbishop extends Actor {
 	 */
 	@Override
 	public boolean validMove(int x, int y) {
+		MyBishop.World = World;
 		MyBishop.Location.x = Location.x;
 		MyBishop.Location.y = Location.y;
+		MyKnight.World = World;
 		MyKnight.Location.x = Location.x;
 		MyKnight.Location.y = Location.y;
 		
@@ -43,8 +45,10 @@ public class Archbishop extends Actor {
 	 */
 	@Override
 	public boolean validCapture(int x, int y) {
+		MyBishop.World = World;
 		MyBishop.Location.x = Location.x;
 		MyBishop.Location.y = Location.y;
+		MyKnight.World = World;
 		MyKnight.Location.x = Location.x;
 		MyKnight.Location.y = Location.y;
 		
