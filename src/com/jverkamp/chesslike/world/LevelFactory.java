@@ -142,7 +142,7 @@ public class LevelFactory {
 				return new ArrayList<Actor>(Arrays.asList(new Pawn(null, 0)));
 			}
 		},
-		new Level("Underground Lake", "A wide open area with a lake in the center", Color.BLUE, 2, 12) {
+		new Level("Underground Lake", "A wide open area with a lake in the center", Color.BLUE, 2, 5) {
 			@Override void generateLandscape(World world) {
 				// Add a solid border
 				for (int x = 0; x < world.Width; x++) {
@@ -209,7 +209,7 @@ public class LevelFactory {
 				return new ArrayList<Actor>(Arrays.asList(new Snake(null, 0)));
 			}
 		}, 
-		new Level("Underground Forest", "Towering mushrooms with a feel of magic in the area", Color.GREEN, 2, 12) {
+		new Level("Underground Forest", "Towering mushrooms with a feel of magic in the area", Color.GREEN, 2, 5) {
 			@Override void generateLandscape(World world) {
 				// Mostly empty space, but spread some trees and grass about.
 				for (int x = 0; x < world.Width; x++) {
@@ -382,7 +382,7 @@ public class LevelFactory {
 				return null;
 			}
 		},
-		new LevelFromFile("Cathedral.txt", "Cathedral", "A place of worship, far from the light of day", new Color(255, 215, 0) /* GOLD */, 6, 12) { 
+		new LevelFromFile("Cathedral.txt", "Cathedral", "A place of worship, far from the light of day", new Color(255, 215, 0) /* GOLD */, 6, 9) { 
 			@Override void generatePieces(World world) {
 				Rectangle enemyBounds = new Rectangle(world.Width / 4, 0, 3 * world.Width / 4, world.Height);
 				
@@ -396,7 +396,7 @@ public class LevelFactory {
 				return new ArrayList<Actor>(Arrays.asList(new Bishop(null, 0), new Bishop(null, 0)));
 			}
 		},
-		new LevelFromFile("Foundry.txt", "Foundry", "Preparing for a war, although against whom is unclear", new Color(183, 65, 14) /* RUST */, 6, 12) {
+		new LevelFromFile("Foundry.txt", "Foundry", "Preparing for a war, although against whom is unclear", new Color(183, 65, 14) /* RUST */, 6, 9) {
 			@Override void generatePieces(World world) {
 				Rectangle enemyBounds = new Rectangle(world.Width / 4, 0, 3 * world.Width / 4, world.Height);
 				
@@ -410,42 +410,42 @@ public class LevelFactory {
 				return new ArrayList<Actor>(Arrays.asList(new Rook(null, 0), new Rook(null, 0)));
 			}
 		},
-		// Third tier
-		new Level("Sunken City", "A city where no city ought to be", Color.WHITE, 10, 12) {
-			@Override void generateLandscape(World world) {
-				
-			}
-
-			@Override void generatePieces(World world) {
-
-			}	
-			
-			@Override List<Actor> getBonus() {
-				return new ArrayList<Actor>(Arrays.asList(new Bishop(null, 0), new Knight(null, 0), new Rook(null, 0)));
-			}
-		},
+//		// Third tier
+//		new Level("Sunken City", "A city where no city ought to be", Color.WHITE, 10, 12) {
+//			@Override void generateLandscape(World world) {
+//				
+//			}
+//
+//			@Override void generatePieces(World world) {
+//
+//			}	
+//			
+//			@Override List<Actor> getBonus() {
+//				return new ArrayList<Actor>(Arrays.asList(new Bishop(null, 0), new Knight(null, 0), new Rook(null, 0)));
+//			}
+//		},
 		// Final tier
-		new LevelFromFile("ThroneRoom.txt", "Throne Room", "The seat of power of this underground civilization (literally)", Color.WHITE, 13, 13) {
+		new LevelFromFile("ThroneRoom.txt", "Throne Room", "The seat of power of this underground civilization (literally)", Color.WHITE, 10, 10) {
 			@Override void generatePieces(World world) {
-				place(world, new Pawn(world, 1), 44, 5);
-				place(world, new Pawn(world, 1), 43, 6);
-				place(world, new Pawn(world, 1), 43, 7);
-				place(world, new Pawn(world, 1), 43, 8);
-				place(world, new Pawn(world, 1), 43, 9);
-				place(world, new Pawn(world, 1), 43, 10);
-				place(world, new Pawn(world, 1), 43, 11);
-				place(world, new Pawn(world, 1), 44, 12);
-				
-				place(world, new Bishop(world, 1), 46, 6);
-				place(world, new Bishop(world, 1), 46, 11);
-				
-				place(world, new Knight(world, 1), 47, 4);
-				place(world, new Knight(world, 1), 47, 13);
-				
-				place(world, new Rook(world, 1), 49, 4);
-				place(world, new Rook(world, 1), 49, 13);
-				
-				place(world, new Queen(world, 1), 48, 8);
+//				place(world, new Pawn(world, 1), 44, 5);
+//				place(world, new Pawn(world, 1), 43, 6);
+//				place(world, new Pawn(world, 1), 43, 7);
+//				place(world, new Pawn(world, 1), 43, 8);
+//				place(world, new Pawn(world, 1), 43, 9);
+//				place(world, new Pawn(world, 1), 43, 10);
+//				place(world, new Pawn(world, 1), 43, 11);
+//				place(world, new Pawn(world, 1), 44, 12);
+//				
+//				place(world, new Bishop(world, 1), 46, 6);
+//				place(world, new Bishop(world, 1), 46, 11);
+//				
+//				place(world, new Knight(world, 1), 47, 4);
+//				place(world, new Knight(world, 1), 47, 13);
+//				
+//				place(world, new Rook(world, 1), 49, 4);
+//				place(world, new Rook(world, 1), 49, 13);
+//				
+//				place(world, new Queen(world, 1), 48, 8);
 				place(world, new King(world, 1), 48, 9);
 			}	
 			

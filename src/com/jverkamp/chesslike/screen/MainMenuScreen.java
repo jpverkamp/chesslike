@@ -24,9 +24,10 @@ public class MainMenuScreen extends Screen {
 		if (code == KeyEvent.VK_ENTER) {
 			List<Actor> yourHumbleArmy = new ArrayList<Actor>();
 			yourHumbleArmy.add(new King(null, 0));
+			yourHumbleArmy.add(new Queen(null, 0));
 			
 			// Start level
-			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, Color.WHITE, 1)); // Forest
+//			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, Color.WHITE, 1)); // Forest
 //			
 //			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, Color.WHITE, 2)); // Caves
 //			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, Color.GREEN, 2)); // Underground Lake
@@ -36,9 +37,7 @@ public class MainMenuScreen extends Screen {
 //			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, new Color(255, 215, 0) /* GOLD */, 6)); // Cathedral
 //			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, new Color(183, 65, 14) /* RUST */, 6)); // Foundry
 //			
-//			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, Color.WHITE, 10)); // Sunken City
-//			
-//			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, Color.WHITE, 13)); // Throne Room
+			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, Color.WHITE, 10)); // Throne Room
 
 		} else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			return null;

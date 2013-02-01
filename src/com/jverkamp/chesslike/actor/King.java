@@ -37,4 +37,11 @@ public class King extends Actor {
 				Math.abs(x - Location.x) <= 1 && 
 				Math.abs(y - Location.y) <= 1);
 	}
+	
+	/**
+	 * The King doesn't move.
+	 */
+	@Override
+	public void AI() {
+	}
 }
