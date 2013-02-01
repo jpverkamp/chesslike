@@ -55,6 +55,10 @@ public class LevelFactory {
 				for (int i = 0; i < 4; i++)
 					placeRandomly(world, new Pawn(world, 1), enemyBounds);
 			}
+			
+			@Override List<Actor> getBonus() {
+				return null;
+			}
 		}, 
 		// First tier
 		new Level("Caves", "Twisting passways cut into the rock, leading deep into the earth", Color.WHITE, 2, 5) {
@@ -131,6 +135,10 @@ public class LevelFactory {
 					case 1: placeRandomly(world, new Knight(world, 1), enemyBounds); break;
 					case 2: placeRandomly(world, new Rook(world, 1), enemyBounds); break;
 				}
+			}	
+			
+			@Override List<Actor> getBonus() {
+				return null;
 			}
 		},
 		new Level("Underground Lake", "A wide open area with a lake in the center", Color.BLUE, 2, 12) {
@@ -194,6 +202,10 @@ public class LevelFactory {
 			
 				for (int i = 0; i < 2; i++)
 					placeRandomly(world, new Snake(world, 1), enemyBounds);
+			}	
+			
+			@Override List<Actor> getBonus() {
+				return null;
 			}
 		}, 
 		new Level("Underground Forest", "Towering mushrooms with a feel of magic in the area", Color.GREEN, 2, 12) {
@@ -235,6 +247,10 @@ public class LevelFactory {
 				placeRandomly(world, new Knight(world, 1), enemyBounds);
 				placeRandomly(world, new Knight(world, 1), enemyBounds);
 				placeRandomly(world, new Unicorn(world, 1), enemyBounds);
+			}	
+			
+			@Override List<Actor> getBonus() {
+				return null;
 			}
 		},
 		// Second tier
@@ -256,6 +272,10 @@ public class LevelFactory {
 						case 2: placeRandomly(world, new Rook(world, 1), enemyBounds); break;
 					}
 				}
+			}	
+			
+			@Override List<Actor> getBonus() {
+				return null;
 			}
 		},
 		new Level("Cathedral", "A place of worship, far from the light of day", new Color(255, 215, 0) /* GOLD */, 6, 12) { 
@@ -265,6 +285,10 @@ public class LevelFactory {
 
 			@Override void generatePieces(World world) {
 
+			}	
+			
+			@Override List<Actor> getBonus() {
+				return null;
 			}
 		},
 		new Level("Foundry", "Preparing for a war, although against whom is unclear", new Color(183, 65, 14) /* RUST */, 6, 12) {
@@ -274,6 +298,10 @@ public class LevelFactory {
 
 			@Override void generatePieces(World world) {
 
+			}	
+			
+			@Override List<Actor> getBonus() {
+				return null;
 			}
 		},
 		// Third tier
@@ -284,6 +312,10 @@ public class LevelFactory {
 
 			@Override void generatePieces(World world) {
 
+			}	
+			
+			@Override List<Actor> getBonus() {
+				return null;
 			}
 		},
 		// Final tier
@@ -307,6 +339,10 @@ public class LevelFactory {
 				// TODO: Place the king and queen right on the thrones instead
 				placeRandomly(world, new Queen(world, 1), enemyBounds);
 				placeRandomly(world, new King(world, 1), enemyBounds);
+			}	
+			
+			@Override List<Actor> getBonus() {
+				return null;
 			}
 		},
 		// Error level
@@ -343,6 +379,10 @@ public class LevelFactory {
 				for (int i = 0; i < 8; i++)
 					for (int j = 1; j < 4; j++)
 						placeRandomly(world, new Pawn(world, j), enemyBounds);
+			}	
+			
+			@Override List<Actor> getBonus() {
+				return null;
 			}
 		}
 	};
@@ -369,6 +409,7 @@ public class LevelFactory {
 		// Store the name and description
 		world.Title = level.Name;
 		world.Description = level.Description;
+		world.Bonus = level.getBonus();
 		
 		// Generate the landscape
 		level.generateLandscape(world);
@@ -441,6 +482,12 @@ abstract class Level {
 		Lowest = lowest;
 		Highest = highest;
 	}
+	
+	/**
+	 * Get the bonus pieces for beating this level.
+	 * @return THe bonus piece(s)
+	 */
+	abstract List<Actor> getBonus();
 	
 	/**
 	 * Add terrain to the world.
