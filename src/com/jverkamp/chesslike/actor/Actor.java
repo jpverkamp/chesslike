@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.util.*;
 
 import com.jverkamp.chesslike.Glyph;
+import com.jverkamp.chesslike.Util;
 import com.jverkamp.chesslike.world.World;
 
 /**
@@ -34,10 +35,10 @@ public abstract class Actor {
 		Team = team;
 		
 		Location = new Point();
-		do {
-			Location.x = World.Rand.nextInt(World.Height);
-			Location.y = World.Rand.nextInt(World.Width);
-		} while(!World.getTile(Location.x, Location.y).IsWalkable);
+//		do {
+//			Location.x = Util.Rand.nextInt(World.Height);
+//			Location.y = Util.Rand.nextInt(World.Width);
+//		} while(!World.getTile(Location.x, Location.y).IsWalkable);
 	}
 	
 	/**
@@ -46,7 +47,7 @@ public abstract class Actor {
 	 */
 	@Override
 	public String toString() {
-		return "" + getClass().getSimpleName() + "@" + super.toString().split("@")[1] + "(" + Location.x + ", " + Location.y + ")";
+		return "" + getClass().getSimpleName() + "@" + super.toString().split("@")[1] + "[" + Team + "](" + Location.x + ", " + Location.y + ")";
 	}
 	
 	/**
@@ -135,13 +136,13 @@ public abstract class Actor {
 		
 		// If we can capture, do so
 		if (!captures.isEmpty()) {
-			int[] target = captures.get(World.Rand.nextInt(captures.size()));
+			int[] target = captures.get(Util.Rand.nextInt(captures.size()));
 			go(target[0], target[1]);
 		}
 		
 		// If we can't, just move somewhere
 		else if (!moves.isEmpty()) {
-			int[] target = moves.get(World.Rand.nextInt(moves.size()));
+			int[] target = moves.get(Util.Rand.nextInt(moves.size()));
 			go(target[0], target[1]);
 		}
 		

@@ -23,7 +23,7 @@ public class MainMenuScreen extends Screen {
 		
 		if (code == KeyEvent.VK_ENTER) {
 			List<Actor> yourHumbleArmy = new ArrayList<Actor>();
-			yourHumbleArmy.add(new King(null, 1));
+			yourHumbleArmy.add(new King(null, 0));
 			
 			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, null, 1));
 		} else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {

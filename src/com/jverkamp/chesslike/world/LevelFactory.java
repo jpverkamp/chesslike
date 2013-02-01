@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.*;
 
+import com.jverkamp.chesslike.Util;
 import com.jverkamp.chesslike.actor.*;
 import com.jverkamp.chesslike.tile.Tile;
 
@@ -25,7 +26,7 @@ public class LevelFactory {
 				// Mostly empty space, but spread some trees and grass about.
 				for (int x = 0; x < world.Width; x++) {
 					for (int y = 0; y < world.Height; y++) {
-						switch (world.Rand.nextInt(10)) {
+						switch (Util.Rand.nextInt(10)) {
 						case 0:
 							world.Tiles[x][y] = Tile.TREE;
 							break;
@@ -45,8 +46,8 @@ public class LevelFactory {
 				}
 				
 				// Place a random stairway downwards.
-				int x = world.Rand.nextInt(world.Width / 2) + world.Width / 2;
-				int y = world.Rand.nextInt(world.Height / 2) + world.Height / 4;
+				int x = Util.Rand.nextInt(world.Width / 2) + world.Width / 2;
+				int y = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
 				world.Tiles[x][y] = Tile.stairs(Color.WHITE);
 			}
 
@@ -57,7 +58,7 @@ public class LevelFactory {
 			}
 			
 			@Override List<Actor> getBonus() {
-				return null;
+				return new ArrayList<Actor>(Arrays.asList(new Pawn(null, 0)));
 			}
 		}, 
 		// First tier
@@ -69,10 +70,10 @@ public class LevelFactory {
 						world.Tiles[x][y] = Tile.WALL;
 				
 				// Carve some nice twisty caves.
-				int x = world.Rand.nextInt(world.Width / 4);
-				int y = world.Rand.nextInt(world.Height / 2) + world.Height / 4;
-				int targetx = world.Rand.nextInt(world.Width / 4) + 3 * world.Width / 4;
-				int targety = world.Rand.nextInt(world.Height / 2) + world.Height / 4;
+				int x = Util.Rand.nextInt(world.Width / 4);
+				int y = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
+				int targetx = Util.Rand.nextInt(world.Width / 4) + 3 * world.Width / 4;
+				int targety = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
 				
 				// Carve at least 10 more chunks
 				for (int i = 0; i < 10; i++) {
@@ -84,31 +85,31 @@ public class LevelFactory {
 									world.Tiles[xi][yi] = Tile.FLOOR;
 						
 						// Wiggle towards the target
-						if (x != targetx && world.Rand.nextInt(2) != 0)
+						if (x != targetx && Util.Rand.nextInt(2) != 0)
 							x += (x > targetx ? -1 : 1);
-						if (y != targety && world.Rand.nextInt(2) != 0)
+						if (y != targety && Util.Rand.nextInt(2) != 0)
 							y += (y > targety ? -1 : 1);
 						
 					} while (x != targetx || y != targety);
 					
-					targetx = world.Rand.nextInt(world.Width);
-					targety = world.Rand.nextInt(world.Height);
+					targetx = Util.Rand.nextInt(world.Width);
+					targety = Util.Rand.nextInt(world.Height);
 				}
 				
 				// Add down stairs
 				do {
-					x = world.Rand.nextInt(world.Width / 4) + 3 * world.Width / 4;
-					y = world.Rand.nextInt(world.Height / 2) + world.Height / 4;
+					x = Util.Rand.nextInt(world.Width / 4) + 3 * world.Width / 4;
+					y = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
 				} while(!world.getTile(x, y).IsWalkable);
 				world.Tiles[x][y] = Tile.stairs(Color.WHITE);
 				
 				// Sometimes add stairs to the underground lake / forest
-				int r = world.Rand.nextInt(4);
+				int r = Util.Rand.nextInt(4);
 				if (r == 0 && !GeneratedLevels.contains("Underground Lake")) {
 					
 					do {
-						x = world.Rand.nextInt(world.Width / 4) + 3 * world.Width / 4;
-						y = world.Rand.nextInt(world.Height / 2) + world.Height / 4;
+						x = Util.Rand.nextInt(world.Width / 4) + 3 * world.Width / 4;
+						y = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
 					} while(!world.getTile(x, y).IsWalkable);
 					
 					world.Tiles[x][y] = Tile.stairs(levelByName("Underground Lake").Stairs);
@@ -116,8 +117,8 @@ public class LevelFactory {
 				} else if (r == 1 && !GeneratedLevels.contains("Underground Forest")) {
 					
 					do {
-						x = world.Rand.nextInt(world.Width / 4) + 3 * world.Width / 4;
-						y = world.Rand.nextInt(world.Height / 2) + world.Height / 4;
+						x = Util.Rand.nextInt(world.Width / 4) + 3 * world.Width / 4;
+						y = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
 					} while(!world.getTile(x, y).IsWalkable);
 					
 					world.Tiles[x][y] = Tile.stairs(levelByName("Underground Forest").Stairs);
@@ -130,7 +131,7 @@ public class LevelFactory {
 				for (int i = 0; i < 4; i++)
 					placeRandomly(world, new Pawn(world, 1), enemyBounds);
 				
-				switch(world.Rand.nextInt(3)) {
+				switch(Util.Rand.nextInt(3)) {
 					case 0: placeRandomly(world, new Bishop(world, 1), enemyBounds); break;
 					case 1: placeRandomly(world, new Knight(world, 1), enemyBounds); break;
 					case 2: placeRandomly(world, new Rook(world, 1), enemyBounds); break;
@@ -138,7 +139,7 @@ public class LevelFactory {
 			}	
 			
 			@Override List<Actor> getBonus() {
-				return null;
+				return new ArrayList<Actor>(Arrays.asList(new Pawn(null, 0)));
 			}
 		},
 		new Level("Underground Lake", "A wide open area with a lake in the center", Color.BLUE, 2, 12) {
@@ -163,8 +164,8 @@ public class LevelFactory {
 				int toAdd = (world.Width * world.Height - 2 * (world.Width + world.Height) + 5) / 3; 
 				smooth: for (int i = 0; i < toAdd; i++) {
 					// Generate a location
-					int x = world.Rand.nextInt(world.Width);
-					int y = world.Rand.nextInt(world.Height);
+					int x = Util.Rand.nextInt(world.Width);
+					int y = Util.Rand.nextInt(world.Height);
 					
 					// If it's not already empty, skip it
 					if (!world.getTile(x, y).equals(Tile.FLOOR)) {
@@ -189,8 +190,8 @@ public class LevelFactory {
 				}
 				
 				// Place a random stairway downwards.
-				int x = world.Rand.nextInt(world.Width / 2) + world.Width / 2;
-				int y = world.Rand.nextInt(world.Height / 2) + world.Height / 4;
+				int x = Util.Rand.nextInt(world.Width / 2) + world.Width / 2;
+				int y = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
 				world.Tiles[x][y] = Tile.stairs(Color.WHITE);
 			}
 
@@ -205,7 +206,7 @@ public class LevelFactory {
 			}	
 			
 			@Override List<Actor> getBonus() {
-				return null;
+				return new ArrayList<Actor>(Arrays.asList(new Snake(null, 0)));
 			}
 		}, 
 		new Level("Underground Forest", "Towering mushrooms with a feel of magic in the area", Color.GREEN, 2, 12) {
@@ -213,7 +214,7 @@ public class LevelFactory {
 				// Mostly empty space, but spread some trees and grass about.
 				for (int x = 0; x < world.Width; x++) {
 					for (int y = 0; y < world.Height; y++) {
-						switch (world.Rand.nextInt(10)) {
+						switch (Util.Rand.nextInt(10)) {
 						case 0:
 							world.Tiles[x][y] = Tile.MUSHROOM;
 							break;
@@ -237,8 +238,8 @@ public class LevelFactory {
 				}
 				
 				// Place a random stairway downwards.
-				int x = world.Rand.nextInt(world.Width / 2) + world.Width / 2;
-				int y = world.Rand.nextInt(world.Height / 2) + world.Height / 4;
+				int x = Util.Rand.nextInt(world.Width / 2) + world.Width / 2;
+				int y = Util.Rand.nextInt(world.Height / 2) + world.Height / 4;
 				world.Tiles[x][y] = Tile.stairs(Color.WHITE);
 			}
 
@@ -250,7 +251,7 @@ public class LevelFactory {
 			}	
 			
 			@Override List<Actor> getBonus() {
-				return null;
+				return new ArrayList<Actor>(Arrays.asList(new Unicorn(null, 0)));
 			}
 		},
 		// Second tier
@@ -266,7 +267,7 @@ public class LevelFactory {
 					placeRandomly(world, new Pawn(world, 1), enemyBounds);
 				
 				for (int i = 0; i < 2; i++) {
-					switch(world.Rand.nextInt(3)) {
+					switch(Util.Rand.nextInt(3)) {
 						case 0: placeRandomly(world, new Bishop(world, 1), enemyBounds); break;
 						case 1: placeRandomly(world, new Knight(world, 1), enemyBounds); break;
 						case 2: placeRandomly(world, new Rook(world, 1), enemyBounds); break;
@@ -275,6 +276,11 @@ public class LevelFactory {
 			}	
 			
 			@Override List<Actor> getBonus() {
+				switch(new Random().nextInt(3)) {
+					case 0: return new ArrayList<Actor>(Arrays.asList(new Bishop(null, 0)));
+					case 1: return new ArrayList<Actor>(Arrays.asList(new Knight(null, 0)));
+					case 2: return new ArrayList<Actor>(Arrays.asList(new Rook(null, 0)));
+				}
 				return null;
 			}
 		},
@@ -288,7 +294,7 @@ public class LevelFactory {
 			}	
 			
 			@Override List<Actor> getBonus() {
-				return null;
+				return new ArrayList<Actor>(Arrays.asList(new Bishop(null, 0), new Bishop(null, 0)));
 			}
 		},
 		new Level("Foundry", "Preparing for a war, although against whom is unclear", new Color(183, 65, 14) /* RUST */, 6, 12) {
@@ -301,7 +307,7 @@ public class LevelFactory {
 			}	
 			
 			@Override List<Actor> getBonus() {
-				return null;
+				return new ArrayList<Actor>(Arrays.asList(new Rook(null, 0), new Rook(null, 0)));
 			}
 		},
 		// Third tier
@@ -315,7 +321,7 @@ public class LevelFactory {
 			}	
 			
 			@Override List<Actor> getBonus() {
-				return null;
+				return new ArrayList<Actor>(Arrays.asList(new Bishop(null, 0), new Knight(null, 0), new Rook(null, 0)));
 			}
 		},
 		// Final tier
@@ -356,7 +362,7 @@ public class LevelFactory {
 			@Override void generateLandscape(World world) {
 				for (int x = 0; x < world.Width; x++) {
 					for (int y = 0; y < world.Height; y++) {
-						switch (world.Rand.nextInt(50)) {
+						switch (Util.Rand.nextInt(50)) {
 							case 0: world.Tiles[x][y] = Tile.GRASS_1; break;
 							case 1: world.Tiles[x][y] = Tile.GRASS_2; break;
 							case 2: world.Tiles[x][y] = Tile.PEW; break;
@@ -382,7 +388,7 @@ public class LevelFactory {
 			}	
 			
 			@Override List<Actor> getBonus() {
-				return null;
+				return new ArrayList<Actor>(Arrays.asList(new King(null, 0), new King(null, 0), new King(null, 0), new King(null, 0)));
 			}
 		}
 	};
@@ -435,8 +441,8 @@ public class LevelFactory {
 	static void placeRandomly(World world, Actor actor, Rectangle bounds) {
 		int x, y;
 		do {
-			x = world.Rand.nextInt(bounds.width) + bounds.x;
-			y = world.Rand.nextInt(bounds.height) + bounds.y;
+			x = Util.Rand.nextInt(bounds.width) + bounds.x;
+			y = Util.Rand.nextInt(bounds.height) + bounds.y;
 		} while(!world.getTile(x, y).IsWalkable || world.getActorAt(x, y) != null);
 		
 		actor.Location.x = x;
