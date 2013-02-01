@@ -8,10 +8,8 @@ import java.util.List;
 
 import trystans.asciiPanel.AsciiPanel;
 
-import com.jverkamp.chesslike.actor.Actor;
-import com.jverkamp.chesslike.actor.King;
-import com.jverkamp.chesslike.world.LevelFactory;
-import com.jverkamp.chesslike.world.World;
+import com.jverkamp.chesslike.actor.*;
+import com.jverkamp.chesslike.world.*;
 
 public class WorldScreen extends Screen {
 	World World;
@@ -83,10 +81,7 @@ public class WorldScreen extends Screen {
 	}
 
 	/**
-	 * Draw the world scre		int maxWidth = terminal.getWidthInCharacters();
-		int maxHeight = terminal.getHeightInCharacters();
-		
-en.
+	 * Draw the world screen.
 	 * @param terminal The panel to draw to.
 	 */
 	@Override
