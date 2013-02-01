@@ -1,13 +1,18 @@
 package com.jverkamp.chesslike;
 
-import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 /**
  * Record statistics.
  */
 public class Statistics {
-	static final Preferences Pref = Preferences.userNodeForPackage(Statistics.class); 
+	static Preferences Pref;
+	static {
+		try {
+			Pref = Preferences.userNodeForPackage(Statistics.class); 
+		} catch(Exception e) {
+		}
+	}
 	
 	private Statistics() {}
 	
@@ -16,9 +21,12 @@ public class Statistics {
 	 * @param key The key.
 	 */
 	private static void increment(String key) {
-		Pref.putInt("Stats/Game/" + key, 1 + Pref.getInt("Stats/Game/" + key, 0));
-		Pref.putInt("Stats/Overall/" + key, 1 + Pref.getInt("Stats/Game/" + key, 0));
-		try { Pref.flush(); } catch (BackingStoreException e) {}
+		try {
+			Pref.putInt("Stats/Game/" + key, 1 + Pref.getInt("Stats/Game/" + key, 0));
+			Pref.putInt("Stats/Overall/" + key, 1 + Pref.getInt("Stats/Game/" + key, 0));
+			Pref.flush();
+		} catch(Exception e) {
+		}
 	}
 	
 	/**
@@ -27,11 +35,15 @@ public class Statistics {
 	 * @return The statistics
 	 */
 	private static int[] lookup(String key) {
-		return new int[]{
-			Pref.getInt("Stats/Game/" + key, 0),
-			Pref.getInt("Stats/Best/" + key, 0),
-			Pref.getInt("Stats/Overall/" + key, 0),
-		};
+		try {
+			return new int[]{
+				Pref.getInt("Stats/Game/" + key, 0),
+				Pref.getInt("Stats/Best/" + key, 0),
+				Pref.getInt("Stats/Overall/" + key, 0),
+			};
+		} catch(Exception e) {
+			return new int[]{0, 0, 0};
+		}
 	}
 	
 	/**
@@ -46,11 +58,10 @@ public class Statistics {
 					Pref.putInt(key, 0);
 				}
 			}
-		} catch(BackingStoreException ex) {
-			ex.printStackTrace();
+		} catch(Exception ex) {
 		}
 		
-		try { Pref.flush(); } catch (BackingStoreException e) {}
+		try { Pref.flush(); } catch (Exception e) {}
 	}
 	
 	
@@ -75,10 +86,10 @@ public class Statistics {
 					Pref.putInt(key, 0);
 				}
 			}
-		} catch(BackingStoreException ex) {
+		} catch(Exception ex) {
 		}
 		
-		try { Pref.flush(); } catch (BackingStoreException e) {}
+		try { Pref.flush(); } catch (Exception e) {}
 	}
 	
 	/**
@@ -152,5 +163,13 @@ public class Statistics {
 			return lookup("Captured/Player/" + name);
 		else
 			return lookup("Captured/Computer/" + name);
+	}
+
+	/**
+	 * Check if the preferences loaded successfully.
+	 * @return If it loaded
+	 */
+	public static boolean isLoaded() {
+		return Pref != null;
 	}
 }
