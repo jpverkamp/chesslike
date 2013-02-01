@@ -27,8 +27,10 @@ public class Marshall extends Actor {
 	 */
 	@Override
 	public boolean validMove(int x, int y) {
+		MyRook.World = World;
 		MyRook.Location.x = Location.x;
 		MyRook.Location.y = Location.y;
+		MyKnight.World = World;
 		MyKnight.Location.x = Location.x;
 		MyKnight.Location.y = Location.y;
 		
@@ -43,8 +45,10 @@ public class Marshall extends Actor {
 	 */
 	@Override
 	public boolean validCapture(int x, int y) {
+		MyRook.World = World;
 		MyRook.Location.x = Location.x;
 		MyRook.Location.y = Location.y;
+		MyKnight.World = World;
 		MyKnight.Location.x = Location.x;
 		MyKnight.Location.y = Location.y;
 		

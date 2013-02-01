@@ -1,11 +1,11 @@
 package com.jverkamp.chesslike.screen;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jverkamp.chesslike.actor.Actor;
-import com.jverkamp.chesslike.actor.King;
+import com.jverkamp.chesslike.actor.*;
 
 import trystans.asciiPanel.AsciiPanel;
 
@@ -24,8 +24,12 @@ public class MainMenuScreen extends Screen {
 		if (code == KeyEvent.VK_ENTER) {
 			List<Actor> yourHumbleArmy = new ArrayList<Actor>();
 			yourHumbleArmy.add(new King(null, 0));
+			yourHumbleArmy.add(new Archbishop(null, 0));
+			yourHumbleArmy.add(new Marshall(null, 0));
+			yourHumbleArmy.add(new Queen(null, 0));
+			yourHumbleArmy.add(new Unicorn(null, 0));
 			
-			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, null, 1));
+			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, Color.WHITE, 7));
 		} else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			return null;
 		} else if (event.getKeyCode() == KeyEvent.VK_F1){

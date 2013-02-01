@@ -33,6 +33,11 @@ public class Unicorn extends Actor {
 		if (x == Location.x && y == Location.y)
 			return true;
 		
+		// Maximum range
+		if (Math.abs(x - Location.x) > 4 || Math.abs(y - Location.y) > 4)		
+			return false;
+				
+		
 		// Any multiple of 2/1 leaps
 		int xdiff = Math.abs(x - Location.x);
 		int ydiff = Math.abs(y - Location.y);
