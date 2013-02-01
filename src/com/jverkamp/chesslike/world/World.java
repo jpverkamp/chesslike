@@ -13,13 +13,16 @@ import com.jverkamp.chesslike.tile.Tile;
 
 public class World {
 	public Random Rand = new Random();
+	
+	// Information from the level definition
 	public String Title;
 	public String Description;
+	public List<Actor> Bonus;
 	
 	// The actual world contents
 	public int Width, Height;
+	public List<Actor> Actors;
 	Tile[][] Tiles;
-	List<Actor> Actors;
 	int Round = 1;
 	
 	// The current active actor
@@ -333,5 +336,26 @@ public class World {
 				return getTile(a.Location.x, a.Location.y).Glyph.Color;
 		
 		return null;
+	}
+	
+	/**
+	 * Get a copy of the pieces.
+	 * @return The pieces
+	 */
+	public List<? extends Actor> getPieces() {
+		return new ArrayList<Actor>(Actors);
+	}
+
+	/**
+	 * Get pieces belonging to a specific team.
+	 * @param team The team to fetch.
+	 * @return The pieces
+	 */
+	public List<? extends Actor> getPieces(int team) {
+		List<Actor> army = new ArrayList<Actor>();
+		for (Actor a : Actors)
+			if (a.Team == team)
+				army.add(a);
+		return army;
 	}
 }

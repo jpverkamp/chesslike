@@ -26,21 +26,20 @@ public class WorldScreen extends Screen {
 	
 	/**
 	 * Create a new world screen descending on a given color of stairs and a certain level.
+	 * @param pieces The pieces that are coming along for the ride.
 	 * @param stairs The stairs we used to get here.
 	 * @param depth The depth we are at.
 	 */
-	public WorldScreen(Color stairs, int depth) {
+	public WorldScreen(List<Actor> pieces, Color stairs, int depth) {
 		World = new World(58, 18);
 		World.setViewSize(58, 18);
 		
 		CurrentDepth = depth;
 		
-		List<Actor> valiants = new ArrayList<Actor>();
-		valiants.add(new King(World, 0));
-		valiants.add(new Marshall(World, 0));
-		valiants.add(new Archbishop(World, 0));
+		for (Actor a : pieces)
+			a.World = World;
 		
-		LevelFactory.run(World, valiants, stairs, depth);
+		LevelFactory.run(World, pieces, stairs, depth);
 	}
 
 	/**
@@ -73,7 +72,18 @@ public class WorldScreen extends Screen {
 		
 		// Check for stairway
 		else if (stairColor != null) {
-			return new WorldIntroScreen(new WorldScreen(stairColor, CurrentDepth + 1));
+			// Get your army
+			List<Actor> yourHumbleArmy = new ArrayList<Actor>();
+			yourHumbleArmy.addAll(World.getPieces(0));
+			
+			// Potentially add a new piece
+			if (VictoryMessage) {
+				List<Actor> bonus = World.Bonus;
+				if (bonus != null)
+					yourHumbleArmy.addAll(bonus);
+			}
+			
+			return new WorldIntroScreen(new WorldScreen(yourHumbleArmy, stairColor, CurrentDepth + 1));
 		}
 		
 		// Otherwise, just keep on going

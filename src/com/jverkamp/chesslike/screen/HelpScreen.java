@@ -23,6 +23,7 @@ public class HelpScreen extends Screen {
 		List<String> lines = new ArrayList<String>();
 		while (s.hasNextLine())
 			lines.add(s.nextLine());
+		s.close();
 		
 		HelpText = new String[lines.size()];
 		HelpText = lines.toArray(HelpText);
