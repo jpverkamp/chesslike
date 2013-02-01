@@ -1,6 +1,5 @@
 package com.jverkamp.chesslike.screen;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 import trystans.asciiPanel.AsciiPanel;
@@ -18,9 +17,11 @@ public class MainMenuScreen extends Screen {
 		int code = event.getKeyCode();
 		
 		if (code == KeyEvent.VK_ENTER) {
-			return new WorldIntroScreen(new WorldScreen(Color.GREEN, 2));
+			return new WorldIntroScreen(new WorldScreen(null, 1));
 		} else if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			return null;
+		} else if (event.getKeyCode() == KeyEvent.VK_F1){
+			return new HelpScreen(this);
 		}
 		
 		return this;
@@ -32,9 +33,12 @@ public class MainMenuScreen extends Screen {
 	 */
 	@Override
 	protected void draw(AsciiPanel terminal) {
-		terminal.writeCenter("ChessLike", 8);
-		terminal.writeCenter("Roguelike + Chess!", 9);
-		terminal.writeCenter("Press [Enter] to play", 11);
-		terminal.writeCenter("Press [Esc] to quit", 12);
+		terminal.writeCenter("ChessLike", 7);
+		terminal.writeCenter("Roguelike + Chess!", 8);
+		
+		terminal.writeCenter("Press [F1] for help", 10);
+		
+		terminal.writeCenter("Press [Enter] to play", 12);
+		terminal.writeCenter("Press [Esc] to quit", 13);
 	}
 }
