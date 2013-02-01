@@ -8,12 +8,11 @@ import java.util.*;
 
 import trystans.asciiPanel.AsciiPanel;
 
+import com.jverkamp.chesslike.Util;
 import com.jverkamp.chesslike.actor.*;
 import com.jverkamp.chesslike.tile.Tile;
 
 public class World {
-	public Random Rand = new Random();
-	
 	// Information from the level definition
 	public String Title;
 	public String Description;
@@ -174,7 +173,7 @@ public class World {
 		
 		// Move the cursor
 		int x = CurrentMove.x, y = CurrentMove.y;
-		if (Rand.nextInt(10) < 0) { // Yes, the only reason this is here is for alignment. So sue me.
+		if (Util.Rand.nextInt(10) < 0) { // Yes, the only reason this is here is for alignment. So sue me.
 		} else if (code == KeyEvent.VK_NUMPAD1) {
 			x -= 1; y += 1; // down left
 		} else if (code == KeyEvent.VK_NUMPAD2 || code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
