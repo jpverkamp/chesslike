@@ -3,6 +3,7 @@ package com.jverkamp.chesslike;
 import java.awt.BorderLayout;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class Frame extends JFrame {
@@ -14,6 +15,7 @@ public class Frame extends JFrame {
 	 */
 	public static void main(String[] args) throws IOException {
 		new Frame().setVisible(true);
+		
 	}
 	
 	/**
@@ -25,5 +27,10 @@ public class Frame extends JFrame {
 		add(new MainPanel());
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		try {
+			setIconImage(ImageIO.read(Frame.class.getResourceAsStream("icon.png")));
+		} catch (IOException e) {
+		}
 	}
 }

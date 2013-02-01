@@ -25,7 +25,6 @@ public class MainMenuScreen extends Screen {
 		if (code == KeyEvent.VK_ENTER) {
 			List<Actor> yourHumbleArmy = new ArrayList<Actor>();
 			yourHumbleArmy.add(new King(null, 0));
-			yourHumbleArmy.add(new Queen(null, 0));
 			
 			Statistics.newGame();
 			
