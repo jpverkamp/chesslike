@@ -13,6 +13,11 @@ import com.jverkamp.chesslike.actor.*;
 import com.jverkamp.chesslike.tile.Tile;
 
 public class World {
+	static final int RED_BOOST = 64;
+	static final Color DANGEROUS = new Color(RED_BOOST, 0, 0);
+	static final Color DANGEROUS_MOVE = new Color(Color.DARK_GRAY.getRed() + RED_BOOST, Color.DARK_GRAY.getRed(), Color.DARK_GRAY.getRed());
+	static final Color DANGEROUS_SELECT = new Color(Color.GRAY.getRed() + RED_BOOST, Color.GRAY.getRed(), Color.GRAY.getRed());
+	
 	// Information from the level definition
 	public String Title;
 	public String Description;
@@ -264,6 +269,8 @@ public class World {
 		
 		// TODO: Reset the view area.
 		
+
+		
 		// Draw tiles
 		for (int xi = 0; xi < View.width; xi++) {
 			for (int yi = 0; yi < View.height; yi++) {
@@ -272,7 +279,27 @@ public class World {
 
 				// TODO: factor this back out so it's more efficient
 				// (or just don't add too many actors...)
-
+				
+				// Calculate the background color
+				// (This was originally a pile of ?: operators... Not sure this is better.)
+				boolean dangerous = dangerous(View.x + xi, View.y + yi);
+				Color background = Color.BLACK;
+				if (View.x + xi == CurrentMove.x && View.y + yi == CurrentMove.y) {
+					if (dangerous) {
+						background = DANGEROUS_SELECT;
+					} else {
+						background = Color.GRAY;
+					}
+				} else if (ActiveActor.validMove(View.x + xi, View.y + yi)) {
+					if (dangerous) {
+						background = DANGEROUS_MOVE;
+					} else {
+						background = Color.DARK_GRAY;
+					}
+				} else if (dangerous) {
+					background = DANGEROUS;
+				}
+				
 				// No actor, draw the tile
 				if (a == null) {
 					terminal.write(
@@ -280,9 +307,7 @@ public class World {
 						region.x + xi,
 						region.y + yi,
 						t.Glyph.Color,
-						(View.x + xi == CurrentMove.x && View.y + yi == CurrentMove.y) ? Color.GRAY :
-							ActiveActor.validMove(View.x + xi, View.y + yi) ? Color.DARK_GRAY : 
-								Color.BLACK
+						background
 					);	
 				} 
 				
@@ -293,9 +318,7 @@ public class World {
 						region.x + xi,
 						region.y + yi,
 						ActiveActor.equals(a) ? Color.WHITE : a.Glyph.Color,
-						(View.x + xi == CurrentMove.x && View.y + yi == CurrentMove.y) ? Color.GRAY :
-							ActiveActor.validCapture(View.x + xi, View.y + yi) ? Color.DARK_GRAY : 
-								Color.BLACK
+						background
 					);
 				}
 			}
@@ -305,6 +328,20 @@ public class World {
 		for (int i = 0; i < 3; i++)
 			if (i < Log.size())
 				terminal.write(Log.get(i), 0, terminal.getHeightInCharacters() - 1 - i, Color.WHITE);
+	}
+
+	/**
+	 * Can this piece be attacked by anyone (not on team 0)
+	 * @param x The x to attack
+	 * @param y The y to attack
+	 * @return
+	 */
+	private boolean dangerous(int x, int y) {
+		for (Actor a : Actors)
+			if (a.Team != 0 && (a.validMove(x, y) || a.validCapture(x, y)))
+				return true;
+		
+		return false;
 	}
 
 	/**

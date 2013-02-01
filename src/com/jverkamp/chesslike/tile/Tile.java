@@ -3,6 +3,7 @@ package com.jverkamp.chesslike.tile;
 import java.awt.Color;
 
 import com.jverkamp.chesslike.Glyph;
+import com.jverkamp.chesslike.Util;
 
 /**
  * Represent various kinds of tiles.
@@ -77,5 +78,31 @@ public class Tile {
 		Tile tile = new Tile('>', color);
 		tile.IsWalkable = true;
 		return tile;
+	}
+	
+	/**
+	 * Lookup a tile by symbol.
+	 * @param symbol The symbol to lookup 
+	 * @return The resulting level
+	 */
+	public static Tile bySymbol(char symbol) {
+		switch(symbol) {
+			// Walkable Tiles
+			case ' ': case '-': return Tile.FLOOR;
+			case '.': return (Util.Rand.nextInt(2) == 0 ? Tile.MUD_1 : Tile.MUD_2);
+			case ',': return (Util.Rand.nextInt(2) == 0 ? Tile.GRASS_1 : Tile.GRASS_2);
+			case 'p': return Tile.PEW;
+			case 'T': return Tile.THRONE;
+			
+			// Non-walkable Tiles
+			case '#': return Tile.WALL;
+			case 't': return Tile.TREE;
+			case 'm': return Tile.MUSHROOM;
+			case 'f': return Tile.FORGE;
+			case 'l': return Tile.LAVA;
+			case 'L': return Tile.LAMP;
+			
+			default: return Tile.VOID;
+		}	
 	}
 }

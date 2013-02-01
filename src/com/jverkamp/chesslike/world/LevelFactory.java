@@ -21,7 +21,7 @@ public class LevelFactory {
 	 */
 	private static Level[] Levels = new Level[]{
 		// Starting level
-		new Level("Forest", "An idyllic landscape, dotted with lovely trees", null, 1, 1) {
+		new Level("Forest", "An idyllic landscape, dotted with lovely trees", Color.WHITE, 1, 1) {
 			@Override void generateLandscape(World world) {
 				// Mostly empty space, but spread some trees and grass about.
 				for (int x = 0; x < world.Width; x++) {
@@ -382,26 +382,28 @@ public class LevelFactory {
 				return null;
 			}
 		},
-		new Level("Cathedral", "A place of worship, far from the light of day", new Color(255, 215, 0) /* GOLD */, 6, 12) { 
-			@Override void generateLandscape(World world) {
-
-			}
-
+		new LevelFromFile("Cathedral.txt", "Cathedral", "A place of worship, far from the light of day", new Color(255, 215, 0) /* GOLD */, 6, 12) { 
 			@Override void generatePieces(World world) {
-
+				Rectangle enemyBounds = new Rectangle(world.Width / 4, 0, 3 * world.Width / 4, world.Height);
+				
+				for (int i = 0; i < 4; i++)
+					placeRandomly(world, new Bishop(world, 1), enemyBounds);
+				
+				placeRandomly(world, new Archbishop(world, 1), enemyBounds);
 			}	
 			
 			@Override List<Actor> getBonus() {
 				return new ArrayList<Actor>(Arrays.asList(new Bishop(null, 0), new Bishop(null, 0)));
 			}
 		},
-		new Level("Foundry", "Preparing for a war, although against whom is unclear", new Color(183, 65, 14) /* RUST */, 6, 12) {
-			@Override void generateLandscape(World world) {
-
-			}
-
+		new LevelFromFile("Foundry.txt", "Foundry", "Preparing for a war, although against whom is unclear", new Color(183, 65, 14) /* RUST */, 6, 12) {
 			@Override void generatePieces(World world) {
-
+				Rectangle enemyBounds = new Rectangle(world.Width / 4, 0, 3 * world.Width / 4, world.Height);
+				
+				for (int i = 0; i < 4; i++)
+					placeRandomly(world, new Rook(world, 1), enemyBounds);
+				
+				placeRandomly(world, new Marshall(world, 1), enemyBounds);
 			}	
 			
 			@Override List<Actor> getBonus() {
@@ -411,7 +413,7 @@ public class LevelFactory {
 		// Third tier
 		new Level("Sunken City", "A city where no city ought to be", Color.WHITE, 10, 12) {
 			@Override void generateLandscape(World world) {
-
+				
 			}
 
 			@Override void generatePieces(World world) {
@@ -423,11 +425,7 @@ public class LevelFactory {
 			}
 		},
 		// Final tier
-		new Level("Throne Room", "The seat of power of this underground civilization (literally)", Color.WHITE, 13, 13) {
-			@Override void generateLandscape(World world) {
-
-			}
-
+		new LevelFromFile("ThroneRoom.txt", "Throne Room", "The seat of power of this underground civilization (literally)", Color.WHITE, 13, 13) {
 			@Override void generatePieces(World world) {
 				Rectangle enemyBounds = new Rectangle(world.Width / 4, 0, 3 * world.Width / 4, world.Height);
 				
@@ -604,4 +602,47 @@ abstract class Level {
 	 * @param world The world to add the pieces to.
 	 */
 	abstract void generatePieces(World world);
+}
+
+abstract class LevelFromFile extends Level {
+	String Filename;
+	
+	/**
+	 * Create a level.
+	 * @param filename The filename to use
+	 * @param name Name to use for round announcements.
+	 * @param description Print this out when first visiting the level
+	 * @param stairs The color of stairs to get here (to indicate special levels)
+	 * @param lowest The lowest level this can be found at (inclusive)
+	 * @param highest The highest level this can be found at (inclusive)
+	 */
+	public LevelFromFile(String filename, String name, String description, Color stairs, int lowest, int highest) {
+		super(name, description, stairs, lowest, highest);
+
+		Filename = filename;
+	}
+	
+	/**
+	 * Add terrain to the world.
+	 * @param world The world to add the terrain to.
+	 */
+	@Override
+	void generateLandscape(World world) {
+		// Load the file
+		Scanner s = new Scanner(LevelFactory.class.getResourceAsStream(Filename));
+		List<String> lines = new ArrayList<String>();
+		while (s.hasNextLine())
+			lines.add(s.nextLine());
+		s.close();
+		
+		// Fill the level with walls
+		for (int x = 0; x < world.Width; x++)
+			for (int y = 0; y < world.Height; y++)
+				world.Tiles[x][y] = Tile.WALL;
+		
+		// Load in the file
+		for (int y = 0; y < lines.size(); y++)
+			for (int x = 0; x < lines.get(y).length(); x++)
+				world.Tiles[x][y] = Tile.bySymbol(lines.get(y).charAt(x));
+	}
 }
