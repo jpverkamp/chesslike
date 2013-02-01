@@ -189,10 +189,11 @@ public class LevelFactory {
 			@Override void generatePieces(World world) {
 				Rectangle enemyBounds = new Rectangle(world.Width / 4, 0, 3 * world.Width / 4, world.Height);
 				
-				for (int i = 0; i < 4; i++) {
+				for (int i = 0; i < 4; i++)
 					placeRandomly(world, new Pawn(world, 1), enemyBounds);
-					// TODO: Add 4 grasshoppers
-				}
+			
+				for (int i = 0; i < 2; i++)
+					placeRandomly(world, new Snake(world, 1), enemyBounds);
 			}
 		}, 
 		new Level("Underground Forest", "Towering mushrooms with a feel of magic in the area", Color.GREEN, 2, 12) {
@@ -233,7 +234,7 @@ public class LevelFactory {
 				Rectangle enemyBounds = new Rectangle(world.Width / 4, 0, 3 * world.Width / 4, world.Height);
 				placeRandomly(world, new Knight(world, 1), enemyBounds);
 				placeRandomly(world, new Knight(world, 1), enemyBounds);
-				// TODO: Add 1 Unicorn
+				placeRandomly(world, new Unicorn(world, 1), enemyBounds);
 			}
 		},
 		// Second tier

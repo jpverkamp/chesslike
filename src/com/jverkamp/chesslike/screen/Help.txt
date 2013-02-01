@@ -4,7 +4,7 @@
  r Rook         Moves any number of squares orthogonally
  k Knight       Jumps over pieces, moves two one way and one the other
  b Bishop       Moves any number of squares diagonally
- s Squirrel     Jumps to any square within two
+ s Snake        Jumps to any square within two
  U Unicorn      Moves as a repeating Knight
  A Archbishop   Moves as either a Bishop or a Knight
  M Marshall     Moves as either a Rook or a Knight
