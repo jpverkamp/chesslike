@@ -48,6 +48,15 @@ public class StatScreen extends Screen {
 	 */
 	@Override
 	protected void draw(AsciiPanel terminal) {
+		// Error message
+		if (!Statistics.isLoaded()) {
+			terminal.write("Error loading statistics (it doesn't work in the applet version)", 1, 1);
+			terminal.write("Good luck! Press any key to return to the game.", 1, 22);
+			return;
+		}
+			
+		
+		
 		// Header
 		terminal.write("Statistics ", 1, 1);
 		

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jverkamp.chesslike.Statistics;
+import com.jverkamp.chesslike.Util;
 import com.jverkamp.chesslike.actor.*;
 
 import trystans.asciiPanel.AsciiPanel;
@@ -56,7 +57,7 @@ public class MainMenuScreen extends Screen {
 	 */
 	@Override
 	protected void draw(AsciiPanel terminal) {
-		terminal.writeCenter("ChessLike", 8);
+		terminal.writeCenter("ChessLike " + Util.Version, 8);
 		terminal.writeCenter("Roguelike + Chess!", 9);
 		
 		terminal.writeCenter("Press [Enter] to play", 11);
